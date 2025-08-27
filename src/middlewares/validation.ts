@@ -1,0 +1,37 @@
+import { Request, Response, NextFunction } from "express";
+import { body, validationResult } from "express-validator";
+
+export const validateRegister = [
+  body("first_name").notEmpty().withMessage("First name is required"),
+  body("last_name").notEmpty().withMessage("Last name is required"),
+  body("mobile_no").notEmpty().withMessage("Mobile number is required"),
+  body("email").isEmail().withMessage("Please provide a valid email address"),
+  body("password").notEmpty().withMessage("Password is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        errors: errors.array(),
+      });
+    }
+    next();
+  },
+];
+
+export const validateLogin = [
+  body("email").isEmail().withMessage("Please provide a valid email address"),
+  body("password").notEmpty().withMessage("Password is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        errors: errors.array(),
+      });
+    }
+    next();
+  },
+];

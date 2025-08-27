@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import authRoutes from "./routes/auth";
 
 const app = express();
 
@@ -18,5 +19,8 @@ if (process.env.NODE_ENV === "development") {
 app.get("/", (req, res) => {
   res.status(200).json({ status: "Digital Gold API is healthy" });
 });
+
+// Routes
+app.use("/api/auth", authRoutes);
 
 export default app;

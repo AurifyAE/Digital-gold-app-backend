@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import authRoutes from "./routes/auth";
+import adminRoutes from "./routes/admin";
 
 const app = express();
 
@@ -16,11 +17,18 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("combined")); // Standard Apache combined log format for production
 }
 
-app.get("/", (req, res) => {
-  res.status(200).json({ status: "Digital Gold API is healthy" });
-});
-
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+
+// welcome page
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "Welcome to Digital Gold App" });
+});
+
+//404 endpoint
+// app.use("*", (req, res) => {
+//   res.json({ message: "Invalid Endpoint" });
+// });
 
 export default app;

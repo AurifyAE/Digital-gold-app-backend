@@ -92,3 +92,22 @@ export const login = async (req: Request, res: Response) => {
     },
   });
 };
+
+// Logout controller
+export const logout = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  // Validate input
+  if (!id) {
+    throw new AppError(400, "Please provide user id.");
+  }
+
+  // Delete session
+  await Session.findByIdAndDelete(id);
+
+  res.json({
+    success: true,
+    message: "Logout successful.",
+    data: {},
+  });
+};

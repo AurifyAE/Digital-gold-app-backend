@@ -8,14 +8,14 @@ export interface IUser extends Document {
   mobile_no: string;
   email: string;
   password: string;
-  role_id: string;
+  role: string;
   is_active: boolean;
   is_deleted: boolean;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-const userSchema: Schema = new Schema(
+const userSchema: Schema = new Schema<IUser>(
   {
     first_name: {
       type: String,
@@ -46,9 +46,9 @@ const userSchema: Schema = new Schema(
       type: String,
       required: [true, "Password is required"],
     },
-    role_id: {
-        type: String,
-        required: [true, "Role is required"],
+    role: {
+      type: String,
+      required: [true, "Role is required"],
       default: "user",
     },
     is_active: {

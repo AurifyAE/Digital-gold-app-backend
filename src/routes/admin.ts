@@ -14,13 +14,13 @@ import { deleteUser } from "../controllers/admin/user/delete";
 const router = express.Router();
 
 // Scheme routes
-router.get("/schemes", listSchemes);
+router.get("/scheme", listSchemes);
 router.post("/scheme", validateScheme, addScheme);
 router.patch("/scheme/:id", updateScheme);
 router.delete("/scheme/:id", deleteScheme);
 
 // User routes
-router.get("/users", listUsers);
+router.get("/user", listUsers);
 router.patch("/user", updateUser);
 router.delete("/user/:id", deleteUser);
 

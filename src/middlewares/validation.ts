@@ -35,3 +35,21 @@ export const validateLogin = [
     next();
   },
 ];
+
+export const validateScheme = [
+  body("name").notEmpty().withMessage("Name is required"),
+  body("months").notEmpty().withMessage("Months is required"),
+  body("amount").notEmpty().withMessage("amount is required"),
+  body("bounce").notEmpty().withMessage("Bounce is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        errors: errors.array(),
+      });
+    }
+    next();
+  },
+];

@@ -8,7 +8,7 @@ import { deleteScheme } from "../controllers/admin/scheme/delete";
 
 // User
 import { listUsers } from "../controllers/admin/user/list";
-// import { updateUser } from "../controllers/admin/user/update";
+import { updateUser } from "../controllers/admin/user/update";
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.delete("/scheme/:id", deleteScheme);
 
 // User routes
 router.get("/users", listUsers);
-// router.patch("/user", updateUser);
+router.patch("/user", updateUser);
 
 
 export default router;

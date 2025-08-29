@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import AppError from "../utils/error";
 import User from "../models/user";
+import Session from "../models/session";
 import { createUserToken } from "../utils/createToken";
 
 // Register controller
@@ -38,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
         id: user._id,
         name: user.first_name,
         email: user.email,
-        role: user.role_id,
+        role: user.role,
       },
     },
   });
@@ -68,7 +69,13 @@ export const login = async (req: Request, res: Response) => {
   // Generate token using the utility function
   const token = createUserToken({
     id: user._id.toString(),
-    role: user.role_id,
+    role: user.role,
+  });
+
+  // Create session
+  await Session.create({
+    user_id: user._id,
+    token,
   });
 
   res.json({
@@ -79,7 +86,7 @@ export const login = async (req: Request, res: Response) => {
         id: user._id,
         name: user.first_name,
         email: user.email,
-        role: user.role_id,
+        role: user.role,
       },
       token,
     },

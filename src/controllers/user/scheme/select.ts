@@ -4,8 +4,8 @@ import Scheme from "../../../models/scheme";
 import SelectedScheme from "../../../models/selectedScheme";
 
 export const selectScheme = async (req: Request, res: Response) => {
-    // const userId = req.user;
-    const { uId, scheme_id, pay_amount, payment_date } = req.body;
+    const { scheme_id, pay_amount, payment_date } = req.body;
+    const userId = (req as any).user?._id;
 
     // Validate input
     if (!scheme_id || !pay_amount || !payment_date) {
@@ -23,8 +23,7 @@ export const selectScheme = async (req: Request, res: Response) => {
 
     // Create selected scheme
     const selectedScheme = await SelectedScheme.create({
-        // user_id: userId,
-        user_id: uId,
+        user_id: userId,
         scheme_id,
         balance_payout,
         payment_date

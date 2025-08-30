@@ -11,7 +11,7 @@ export interface IScheme extends Document {
   is_deleted: boolean;
 }
 
-const schemeSchema = new Schema<IScheme>(
+const schemeSchema: Schema = new Schema<IScheme>(
   {
     name: {
       type: String,

@@ -6,7 +6,7 @@ export interface ISession extends Document {
   createdAt: Date;
 }
 
-const SessionSchema: Schema<ISession> = new Schema(
+const SessionSchema: Schema = new Schema<ISession>(
   {
     user_id: {
       type: Schema.Types.ObjectId,

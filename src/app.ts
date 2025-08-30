@@ -3,6 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import authRoutes from "./routes/auth";
 import adminRoutes from "./routes/admin";
+import userRoutes from "./routes/user";
 
 const app = express();
 
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === "development") {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api", userRoutes);
 
 // welcome page
 app.get("/", (req, res) => {

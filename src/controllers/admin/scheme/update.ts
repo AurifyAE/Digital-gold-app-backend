@@ -17,6 +17,11 @@ export const updateScheme = async (req: Request, res: Response) => {
         throw new AppError(400, "Scheme not found.");
     }
 
+    // Check if scheme is editable
+    if (!findScheme.editable) {
+        throw new AppError(400, "Scheme is not editable.");
+    }
+
     const updateScheme: any = {};
 
     // Validate and add months if provided

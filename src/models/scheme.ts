@@ -6,6 +6,7 @@ export interface IScheme extends Document {
   monthly_pay: number;
   amount: number;
   bonus: number;
+  editable: boolean;
   is_active: boolean;
   is_deleted: boolean;
 }
@@ -31,6 +32,10 @@ const schemeSchema = new Schema<IScheme>(
     bonus: {
       type: Number,
       required: true,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
     },
     is_active: {
       type: Boolean,

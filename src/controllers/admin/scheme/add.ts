@@ -3,11 +3,11 @@ import AppError from "../../../utils/error";
 import Scheme from "../../../models/scheme";
 
 export const addScheme = async (req: Request, res: Response) => {
-    const { name, months, amount, bounce } = req.body;
+    const { name, months, amount, bonus } = req.body;
 
     // Validate input
-    if (!name || !months || !amount || !bounce) {
-        throw new AppError(400, "Please provide name, months, amount and bounce.");
+    if (!name || !months || !amount || !bonus) {
+        throw new AppError(400, "Please provide name, months, amount and bonus.");
     }
 
     // Check if scheme already exists
@@ -21,7 +21,7 @@ export const addScheme = async (req: Request, res: Response) => {
         name,
         months,
         amount,
-        bounce
+        bonus
     });
     
     res.json({

@@ -4,7 +4,7 @@ import Scheme from "../../../models/scheme";
 
 export const updateScheme = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { months, amount, bounce } = req.body;
+    const { months, amount, bonus } = req.body;
 
     // Validate input
     if (!id) {
@@ -27,9 +27,9 @@ export const updateScheme = async (req: Request, res: Response) => {
     if (amount !== undefined && amount !== null && amount !== "")
         updateScheme.amount = Number(amount);
 
-    // Validate and add bounce if provided
-    if (bounce !== undefined && bounce !== null && bounce !== "")
-        updateScheme.bounce = Number(bounce);
+    // Validate and add bonus if provided
+    if (bonus !== undefined && bonus !== null && bonus !== "")
+        updateScheme.bonus = Number(bonus);
 
     if (Object.keys(updateScheme).length === 0)
         throw new AppError(400, "Please provide at least one field to update.");

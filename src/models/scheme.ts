@@ -4,7 +4,7 @@ export interface IScheme extends Document {
   name: string;
   months: number;
   amount: number;
-  bounce: number;
+  bonus: number;
   is_active: boolean;
   is_deleted: boolean;
 }
@@ -23,7 +23,7 @@ const schemeSchema = new Schema<IScheme>(
       type: Number,
       required: true,
     },
-    bounce: {
+    bonus: {
       type: Number,
       required: true,
     },

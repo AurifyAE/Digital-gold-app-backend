@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import AppError from "../../../utils/error";
 import Scheme from "../../../models/scheme";
 import SelectedScheme from "../../../models/selectedScheme";
+import paymentHistory from "../../../models/paymentHistory";
 
 export const selectScheme = async (req: Request, res: Response) => {
     const { scheme_id, pay_amount, payment_date } = req.body;
@@ -27,6 +28,13 @@ export const selectScheme = async (req: Request, res: Response) => {
         scheme_id,
         balance_payout,
         payment_date
+    });
+
+    // Add user selected scheme payment history
+    await paymentHistory.create({
+        user_id: userId,
+        selected_scheme_id: scheme_id,
+        paid_amount: pay_amount
     });
 
     // Update user selected scheme not editable

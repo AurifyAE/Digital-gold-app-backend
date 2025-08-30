@@ -3,11 +3,11 @@ import AppError from "../../../utils/error";
 import Scheme from "../../../models/scheme";
 
 export const addScheme = async (req: Request, res: Response) => {
-    const { name, months, amount, bonus } = req.body;
+    const { name, months, monthly_pay, amount, bonus } = req.body;
 
     // Validate input
-    if (!name || !months || !amount || !bonus) {
-        throw new AppError(400, "Please provide name, months, amount and bonus.");
+    if (!name || !months || !monthly_pay || !amount || !bonus) {
+        throw new AppError(400, "Please provide name, months, monthly pay, amount and bonus.");
     }
 
     // Check if scheme already exists
@@ -20,6 +20,7 @@ export const addScheme = async (req: Request, res: Response) => {
     const scheme = await Scheme.create({
         name,
         months,
+        monthly_pay,
         amount,
         bonus
     });

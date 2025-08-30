@@ -38,9 +38,10 @@ export const validateLogin = [
 
 export const validateScheme = [
   body("name").notEmpty().withMessage("Name is required"),
+  body("monthly_pay").notEmpty().withMessage("Monthly pay is required"),
   body("months").notEmpty().withMessage("Months is required"),
   body("amount").notEmpty().withMessage("amount is required"),
-  body("bounce").notEmpty().withMessage("Bounce is required"),
+  body("bonus").notEmpty().withMessage("Bounce is required"),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

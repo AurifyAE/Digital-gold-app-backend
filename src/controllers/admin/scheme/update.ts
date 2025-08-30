@@ -4,7 +4,7 @@ import Scheme from "../../../models/scheme";
 
 export const updateScheme = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { months, amount, bonus } = req.body;
+    const { months, monthly_pay, amount, bonus } = req.body;
 
     // Validate input
     if (!id) {
@@ -22,6 +22,10 @@ export const updateScheme = async (req: Request, res: Response) => {
     // Validate and add months if provided
     if (months !== undefined && months !== null && months !== "")
         updateScheme.months = Number(months);
+
+    // Validate and add monthly pay if provided
+    if (monthly_pay !== undefined && monthly_pay !== null && monthly_pay !== "")
+        updateScheme.monthly_pay = Number(monthly_pay);
 
     // Validate and add amount if provided
     if (amount !== undefined && amount !== null && amount !== "")

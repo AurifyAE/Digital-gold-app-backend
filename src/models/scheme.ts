@@ -3,6 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface IScheme extends Document {
   name: string;
   months: number;
+  monthly_pay: number;
   amount: number;
   bonus: number;
   is_active: boolean;
@@ -16,6 +17,10 @@ const schemeSchema = new Schema<IScheme>(
       required: [true, "Name is required"],
     },
     months: {
+      type: Number,
+      required: true,
+    },
+    monthly_pay: {
       type: Number,
       required: true,
     },

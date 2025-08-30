@@ -28,6 +28,9 @@ export const selectScheme = async (req: Request, res: Response) => {
         balance_payout,
         payment_date
     });
+
+    // Update user selected scheme not editable
+    await Scheme.findByIdAndUpdate({ _id: scheme_id }, { editable: false });
     
     res.json({
         success: true,

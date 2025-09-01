@@ -21,7 +21,7 @@ export const selectedSchemesList = async (req: Request, res: Response) => {
   const paymentHistories = await PaymentHistory.find({
     user_id: userId,
     selected_scheme_id: { $in: selectedSchemeIds },
-  }).select("paid_amount paidAt selected_scheme_id");
+  }).select("user_id paid_amount paidAt selected_scheme_id");
 
   // Step 3: Combine payment histories with their corresponding selected schemes
   const paymentHistoryMap = paymentHistories.reduce(

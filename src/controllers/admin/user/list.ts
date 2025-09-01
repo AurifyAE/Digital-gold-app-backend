@@ -6,7 +6,7 @@ import PaymentHistory from "../../../models/paymentHistory";
 
 export const listUsers = async (req: Request, res: Response) => {
   const usersWithSchemesAndPayments = await User.aggregate([
-    { $match: { role: "user" } },
+    { $match: { role: "user", is_deleted: false } },
     {
       $project: {
         first_name: 1,

@@ -8,6 +8,7 @@ import { deleteScheme } from "../controllers/admin/scheme/delete";
 
 // User
 import { listUsers } from "../controllers/admin/user/list";
+import { detailsUser } from "../controllers/admin/user/details";
 import { updateDetailsUser, blockOrActiveUser } from "../controllers/admin/user/update";
 import { deleteUser } from "../controllers/admin/user/delete";
 
@@ -21,6 +22,7 @@ router.delete("/scheme/:id", deleteScheme);
 
 // User routes
 router.get("/user", listUsers);
+router.get("/user/:id", detailsUser);
 router.patch("/user", updateDetailsUser);
 router.patch("/user-block", blockOrActiveUser);
 router.delete("/user/:id", deleteUser);

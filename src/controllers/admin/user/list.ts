@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
-import AppError from "../../../utils/error";
 import User from "../../../models/user";
-import SelectedScheme from "../../../models/selectedScheme";
-import PaymentHistory from "../../../models/paymentHistory";
 
 export const listUsers = async (req: Request, res: Response) => {
   const usersWithSchemesAndPayments = await User.aggregate([

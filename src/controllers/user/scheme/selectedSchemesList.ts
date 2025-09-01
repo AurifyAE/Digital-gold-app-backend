@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import AppError from "../../../utils/error";
-import Scheme from "../../../models/scheme";
 import PaymentHistory from "../../../models/paymentHistory";
 import SelectedScheme from "../../../models/selectedScheme";
 

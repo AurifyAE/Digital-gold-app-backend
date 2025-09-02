@@ -33,7 +33,7 @@ export const selectScheme = async (req: Request, res: Response) => {
     // Add user selected scheme payment history
     await paymentHistory.create({
         user_id: userId,
-        selected_scheme_id: scheme_id,
+        selected_scheme_id: selectedScheme._id,
         paid_amount: pay_amount
     });
 

@@ -32,7 +32,7 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
         status: {
             type: String,
             required: true,
-            default: "completed"
+            default: "requested"
         }
     },
   {

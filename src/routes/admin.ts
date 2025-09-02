@@ -14,7 +14,7 @@ import { deleteUser } from "../controllers/admin/user/delete";
 
 // Payment
 import { listPayments } from "../controllers/admin/payment/list";
-
+import { updatePaymentStatus } from "../controllers/admin/payment/update";
 
 const router = express.Router();
 
@@ -33,5 +33,6 @@ router.delete("/user/:id", deleteUser);
 
 // Payment routes
 router.get("/payment", listPayments);
+router.patch("/payment", updatePaymentStatus);
 
 export default router;

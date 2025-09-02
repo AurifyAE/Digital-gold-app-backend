@@ -12,6 +12,10 @@ import { detailsUser } from "../controllers/admin/user/details";
 import { updateDetailsUser, blockOrActiveUser } from "../controllers/admin/user/update";
 import { deleteUser } from "../controllers/admin/user/delete";
 
+// Payment
+import { listPayments } from "../controllers/admin/payment/list";
+
+
 const router = express.Router();
 
 // Scheme routes
@@ -27,5 +31,7 @@ router.patch("/user", updateDetailsUser);
 router.patch("/user-block", blockOrActiveUser);
 router.delete("/user/:id", deleteUser);
 
+// Payment routes
+router.get("/payment", listPayments);
 
 export default router;

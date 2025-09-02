@@ -54,3 +54,21 @@ export const validateScheme = [
     next();
   },
 ];
+
+export const validateAim = [
+  body("name").notEmpty().withMessage("Name is required"),
+  body("months").notEmpty().withMessage("Months is required"),
+  body("amount").notEmpty().withMessage("amount is required"),
+  body("monthly_pay").notEmpty().withMessage("Monthly pay is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        errors: errors.array(),
+      });
+    }
+    next();
+  },
+];

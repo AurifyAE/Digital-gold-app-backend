@@ -3,7 +3,7 @@ import AppError from "../../../utils/error";
 import Aim from "../../../models/aim";
 
 export const addAim = async (req: Request, res: Response) => {
-  const { name, months, amount, payment_date, payment_type, monthly_pay } = req.body;
+  const { name, months, amount, payment_date, payment_cycle, monthly_pay } = req.body;
   const userId = (req as any).user?._id;
 
   // Validate input
@@ -31,8 +31,8 @@ export const addAim = async (req: Request, res: Response) => {
   // Dynamically only fields that are provided
   if (payment_date !== undefined && payment_date !== "")
     aimData.payment_date = payment_date;
-  if (payment_type !== undefined && payment_type !== "")
-    aimData.payment_type = payment_type;
+  if (payment_cycle !== undefined && payment_cycle !== "")
+    aimData.payment_cycle = payment_cycle;
 
   // Create new aim
   const aim = new Aim(aimData);

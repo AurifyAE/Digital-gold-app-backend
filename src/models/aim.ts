@@ -7,8 +7,9 @@ export interface IAimScheme extends Document {
   amount: number;
   payment_date: number;
   balance_payout: number;
-  payment_type: string;
-  monthly_pay: number;
+  payment_cycle: string;
+  calculated_emi: number;
+  current_saved: number;
   status: string;
 }
 
@@ -43,20 +44,25 @@ const aimSchema: Schema = new Schema<IAimScheme>(
       required: true,
       default: 0,
     },
-    payment_type: {
+    payment_cycle: {
       type: String,
       required: true,
       default: "monthly",
     },
-    monthly_pay: {
+    calculated_emi: {
       type: Number,
       required: true,
-        },
+    },
+    current_saved: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     status: {
-        type: String,
-        required: true,
-        default: "active"
-    }
+      type: String,
+      required: true,
+      default: "active",
+    },
   },
   {
     timestamps: true,

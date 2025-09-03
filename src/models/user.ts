@@ -5,6 +5,8 @@ export interface IUser extends Document {
   _id: Types.ObjectId;
   first_name: string;
   last_name: string;
+  date_of_birth: string;
+  gender: string;
   mobile_no: string;
   email: string;
   password: string;
@@ -28,6 +30,14 @@ const userSchema: Schema = new Schema<IUser>(
       required: [true, "Last name is required"],
       masLength: [20, "Last name must be less than 20 characters"],
       trim: true,
+    },
+    date_of_birth: {
+      type: String,
+      required: [true, "Date of birth is required"],
+    },
+    gender: {
+      type: String,
+      required: [true, "Gender is required"],
     },
     mobile_no: {
       type: String,

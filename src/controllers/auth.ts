@@ -6,13 +6,13 @@ import { createUserToken } from "../utils/createToken";
 
 // Register controller
 export const register = async (req: Request, res: Response) => {
-  const { first_name, last_name, mobile_no, email, password } = req.body;
+  const { first_name, last_name, date_of_birth, gender, mobile_no, email, password } = req.body;
 
   // Validate input
-  if (!first_name || !last_name || !mobile_no || !email || !password) {
+  if (!first_name || !last_name || !mobile_no || !date_of_birth || !gender || !email || !password) {
     throw new AppError(
       400,
-      "Please provide first name, last name, mobile number, email and password."
+      "Please provide first name, last name, date of birth, gender, mobile number, email and password."
     );
   }
 
@@ -26,6 +26,8 @@ export const register = async (req: Request, res: Response) => {
   const user = await User.create({
     first_name,
     last_name,
+    date_of_birth,
+    gender,
     mobile_no,
     email,
     password,
@@ -37,7 +39,11 @@ export const register = async (req: Request, res: Response) => {
     data: {
       user: {
         id: user._id,
-        name: user.first_name,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        date_of_birth: user.date_of_birth,
+        gender: user.gender,
+        mobile_no: user.mobile_no,
         email: user.email,
         role: user.role,
       },

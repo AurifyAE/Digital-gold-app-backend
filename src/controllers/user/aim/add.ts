@@ -3,11 +3,11 @@ import AppError from "../../../utils/error";
 import Aim from "../../../models/aim";
 
 export const addAim = async (req: Request, res: Response) => {
-  const { name, months, amount, payment_date, payment_cycle, monthly_pay } = req.body;
+  const { name, months, amount, payment_date, payment_cycle, calculated_emi } = req.body;
   const userId = (req as any).user?._id;
 
   // Validate input
-  if (!name || !months || !amount || !monthly_pay) {
+  if (!name || !months || !amount || !calculated_emi) {
     throw new AppError(
       400,
       "Please provide name, months, amount and monthly pay!"
@@ -26,7 +26,7 @@ export const addAim = async (req: Request, res: Response) => {
   aimData.name = name;
   aimData.months = months;
   aimData.amount = amount;
-  aimData.monthly_pay = monthly_pay;
+  aimData.calculated_emi = calculated_emi;
 
   // Dynamically only fields that are provided
   if (payment_date !== undefined && payment_date !== "")

@@ -5,6 +5,7 @@ import { selectedSchemesList } from "../controllers/user/scheme/selectedSchemesL
 import { payment } from "../controllers/user/scheme/payment";
 import { addAim } from "../controllers/user/aim/add";
 import { listAims } from "../controllers/user/aim/list";
+import { aimPayment } from "../controllers/user/aim/payment";
 
 import { validateAim } from "../middlewares/validation";
 
@@ -19,5 +20,6 @@ router.post("/scheme/payment", payment);
 // Aim routes
 router.post("/aim", validateAim, addAim);
 router.get("/aim", listAims);
+router.patch("/aim/payment", aimPayment);
 
 export default router;

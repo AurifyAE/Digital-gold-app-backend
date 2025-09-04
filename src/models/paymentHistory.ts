@@ -3,6 +3,8 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 export interface IPaymentHistory extends Document {
     user_id: Types.ObjectId;
     selected_scheme_id: Types.ObjectId;
+    aim_id: Types.ObjectId;
+    payment_type: string;
     paid_amount: number;
     paidAt: Date;
     status: string;
@@ -17,7 +19,17 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
         },
         selected_scheme_id: {
             type: Schema.Types.ObjectId,
-            ref: "selectedscheme",
+            ref: "Selectedscheme",
+            required: function () { return this.payment_type === "scheme"; },
+        },
+        aim_id: {
+            type: Schema.Types.ObjectId,
+            ref: "Aim",
+            required: function () { return this.payment_type === "aim"; },
+        },
+        payment_type: {
+            type: String,
+            enum: ["scheme", "aim"],
             required: true,
         },
         paid_amount: {
@@ -27,7 +39,7 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
         paidAt: {
             type: Date,
             required: true,
-            default: Date.now
+            default: null
         },
         status: {
             type: String,
@@ -39,6 +51,12 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
     timestamps: true,
   }
 );
+
+// Indexes for efficient queries
+paymentHistorySchema.index({ user_id: 1, payment_type: 1 });
+paymentHistorySchema.index({ selected_scheme_id: 1 });
+paymentHistorySchema.index({ aim_id: 1 });
+paymentHistorySchema.index({ status: 1, paidAt: 1 });
 
 const paymentHistory = mongoose.model<IPaymentHistory>(
   "PaymentHistory",

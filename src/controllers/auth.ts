@@ -1,15 +1,32 @@
 import { Request, Response } from "express";
 import AppError from "../utils/error";
 import User from "../models/user";
+import Wallet from "../models/wallet";
 import Session from "../models/session";
 import { createUserToken } from "../utils/createToken";
 
 // Register controller
 export const register = async (req: Request, res: Response) => {
-  const { first_name, last_name, date_of_birth, gender, mobile_no, email, password } = req.body;
+  const {
+    first_name,
+    last_name,
+    date_of_birth,
+    gender,
+    mobile_no,
+    email,
+    password,
+  } = req.body;
 
   // Validate input
-  if (!first_name || !last_name || !mobile_no || !date_of_birth || !gender || !email || !password) {
+  if (
+    !first_name ||
+    !last_name ||
+    !mobile_no ||
+    !date_of_birth ||
+    !gender ||
+    !email ||
+    !password
+  ) {
     throw new AppError(
       400,
       "Please provide first name, last name, date of birth, gender, mobile number, email and password."
@@ -33,6 +50,11 @@ export const register = async (req: Request, res: Response) => {
     password,
   });
 
+  // Create wallet
+  const wallet = await Wallet.create({
+    user_id: user._id
+  });
+
   res.json({
     success: true,
     message: "User created successfully.",
@@ -46,6 +68,9 @@ export const register = async (req: Request, res: Response) => {
         mobile_no: user.mobile_no,
         email: user.email,
         role: user.role,
+        wallet: {
+          balance: wallet.balance
+        }
       },
     },
   });

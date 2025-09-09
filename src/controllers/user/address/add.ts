@@ -3,8 +3,8 @@ import AppError from "../../../utils/error";
 import Address from "../../../models/address";
 
 export const addAddress = async (req: Request, res: Response) => {
-    const { userId, street, district, city, state, postal_code } = req.body;
-    // const userId = (req as any).user?._id;
+    const { street, district, city, state, postal_code } = req.body;
+    const userId = (req as any).user?._id;
 
     // Validate input
     if (!street || !district || !city || !state || !postal_code) {

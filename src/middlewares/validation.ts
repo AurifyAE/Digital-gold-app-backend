@@ -74,3 +74,22 @@ export const validateAim = [
     next();
   },
 ];
+
+export const validateAddress = [
+  body("street").notEmpty().withMessage("Street is required"),
+  body("district").notEmpty().withMessage("District is required"),
+  body("city").notEmpty().withMessage("City is required"),
+  body("state").notEmpty().withMessage("State is required"),
+  body("postal_code").notEmpty().withMessage("Postal code is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        errors: errors.array(),
+      });
+    }
+    next();
+  },
+];

@@ -6,8 +6,12 @@ import { payment } from "../controllers/user/scheme/payment";
 import { addAim } from "../controllers/user/aim/add";
 import { listAims } from "../controllers/user/aim/list";
 import { aimPayment } from "../controllers/user/aim/payment";
+import { addAddress } from "../controllers/user/address/add";
 
-import { validateAim } from "../middlewares/validation";
+import {
+    validateAim,
+    validateAddress
+} from "../middlewares/validation";
 
 const router = express.Router();
 
@@ -21,5 +25,8 @@ router.post("/scheme/payment", payment);
 router.post("/aim", validateAim, addAim);
 router.get("/aim", listAims);
 router.patch("/aim/payment", aimPayment);
+
+// Address routes
+router.post("/address", validateAddress, addAddress);
 
 export default router;

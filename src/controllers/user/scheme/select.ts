@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import AppError from "../../../utils/error";
 import Scheme from "../../../models/scheme";
 import SelectedScheme from "../../../models/selectedScheme";
-import paymentHistory from "../../../models/paymentHistory";
+import PaymentHistory from "../../../models/paymentHistory";
+import Wallet from "../../../models/wallet";
 
 export const selectScheme = async (req: Request, res: Response) => {
     const { scheme_id, pay_amount, payment_date } = req.body;
@@ -19,6 +20,11 @@ export const selectScheme = async (req: Request, res: Response) => {
         throw new AppError(400, "Scheme not found.");
     }
 
+    // Check if user has enough balance
+    const findWallet: any = await Wallet.findOne({ user_id: userId });
+    if (findWallet.balance < pay_amount)
+        throw new AppError(400, "User does not have enough wallet balance!");
+
     // Calculate balance payout
     const balance_payout = findScheme.amount - pay_amount;
 
@@ -31,11 +37,17 @@ export const selectScheme = async (req: Request, res: Response) => {
     });
 
     // Add user selected scheme payment history
-    await paymentHistory.create({
+    await PaymentHistory.create({
         user_id: userId,
         selected_scheme_id: selectedScheme._id,
-        paid_amount: pay_amount
+        payment_type: "scheme",
+        paid_amount: pay_amount,
+        status: "paid"
     });
+
+    // Update wallet balance
+    const walletBalance = findWallet.balance - pay_amount;
+    await Wallet.findOneAndUpdate({ user_id: userId }, { balance: walletBalance });
 
     // Update user selected scheme not editable
     await Scheme.findByIdAndUpdate({ _id: scheme_id }, { editable: false });

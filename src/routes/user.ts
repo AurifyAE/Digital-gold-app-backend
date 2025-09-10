@@ -7,6 +7,7 @@ import { listAims } from "../controllers/user/aim/list";
 import { addAddress } from "../controllers/user/address/add";
 import { getAddress } from "../controllers/user/address/get";
 import { updateAddress } from "../controllers/user/address/update";
+import { walletPayment } from "../controllers/user/wallet/payment";
 
 import {
     validateAim,
@@ -29,5 +30,7 @@ router.post("/address", validateAddress, addAddress);
 router.get("/address/:id", getAddress);
 router.patch("/address", updateAddress);
 
+// Wallet payment route
+router.post("/wallet/payment", walletPayment);
 
 export default router;

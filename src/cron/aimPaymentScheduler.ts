@@ -21,7 +21,6 @@ export const aimPaymentsDailyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-
             const userId = aim.user_id;
 
             // Add to pending payment history
@@ -41,7 +40,11 @@ export const aimPaymentsDailyScheduler = async () => {
 
             // Update next payment date to tomorrow
             await Aim.findByIdAndUpdate(aim._id, {
-                next_payment_date: new Date(today.getDate() + 1)
+                $set: { next_payment_date: new Date(today.getDate() + 7) },
+                $inc: {
+                    balance_payout: - aim.calculated_emi,
+                    current_saved: aim.calculated_emi,
+                }
             });
         }
     } catch (error) {
@@ -51,13 +54,23 @@ export const aimPaymentsDailyScheduler = async () => {
 
 export const aimPaymentsWeeklyScheduler = async () => {
     try {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+
         const aims = await Aim.find({
             status: "active",
             payment_cycle: "weekly",
+            next_payment_date: {
+                $gte: today,
+                $lt: tomorrow
+            },
+            balance_payout: { $gt: 0 }
         });
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
+            const userId = aim.user_id;
 
             // Add to pending payment history
             await paymentHistory.create({
@@ -65,7 +78,22 @@ export const aimPaymentsWeeklyScheduler = async () => {
             aim_id: aim._id,
             paid_amount: aim.calculated_emi,
             payment_type: "aim",
-            status: "pending",
+            status: "paid",
+            });
+
+            // Deduct amount from wallet
+            await Wallet.findOneAndUpdate(
+                { user_id: userId },
+                { $inc: { balance: - aim.calculated_emi } }
+            );
+
+            // Update next payment date to tomorrow
+            await Aim.findByIdAndUpdate(aim._id, {
+              $set: { next_payment_date: new Date(today.getDate() + 7) },
+              $inc: {
+                balance_payout: - aim.calculated_emi,
+                current_saved: aim.calculated_emi
+              },
             });
         }
     } catch (error) {

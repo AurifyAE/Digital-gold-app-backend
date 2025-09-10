@@ -6,6 +6,7 @@ export interface IAimScheme extends Document {
   months: number;
   amount: number;
   payment_date: number;
+  next_payment_date: Date;
   balance_payout: number;
   payment_cycle: string;
   calculated_emi: number;
@@ -38,6 +39,10 @@ const aimSchema: Schema = new Schema<IAimScheme>(
       min: 1,
       max: 30,
       default: 1,
+    },
+    next_payment_date: {
+      type: Date,
+      required: true
     },
     balance_payout: {
       type: Number,

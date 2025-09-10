@@ -8,6 +8,7 @@ export interface IPaymentHistory extends Document {
     paid_amount: number;
     paidAt: Date;
     status: string;
+    transaction_id: string;
 }
 
 const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
@@ -29,7 +30,7 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
         },
         payment_type: {
             type: String,
-            enum: ["scheme", "aim"],
+            enum: ["scheme", "aim", "wallet"],
             required: true,
         },
         paid_amount: {
@@ -45,6 +46,11 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
             type: String,
             required: true,
             default: "requested"
+        },
+        transaction_id: {
+            type: String,
+            unique: true,
+            default: null
         }
     },
   {

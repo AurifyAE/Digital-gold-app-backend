@@ -6,6 +6,7 @@ export interface IAddressScheme extends Document {
   district: string;
   city: string;
   state: string;
+  country: string;
   postal_code: number;
   is_deleted: boolean;
 }
@@ -16,6 +17,7 @@ const addressSchema: Schema = new Schema<IAddressScheme>(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      unique: true,
     },
     street: {
       type: String,
@@ -32,6 +34,10 @@ const addressSchema: Schema = new Schema<IAddressScheme>(
     state: {
       type: String,
       required: true,
+    },
+    country : {
+      type: String,
+      required: true
     },
     postal_code: {
       type: Number,

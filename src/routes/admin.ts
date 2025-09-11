@@ -1,5 +1,4 @@
 import express from "express";
-import { validateScheme } from "../middlewares/validation";
 // Scheme
 import { addScheme } from "../controllers/admin/scheme/add";
 import { listSchemes } from "../controllers/admin/scheme/list";
@@ -16,7 +15,17 @@ import { deleteUser } from "../controllers/admin/user/delete";
 import { listPayments } from "../controllers/admin/payment/list";
 import { updatePaymentStatus } from "../controllers/admin/payment/update";
 
+// Middlewares
+import { validateScheme } from "../middlewares/validation";
+import {
+    authenticate,
+    authorizeAdmin
+} from "../middlewares/admin/authMiddleware";
+
 const router = express.Router();
+
+// All admin routes require authentication and admin role
+router.use(authenticate, authorizeAdmin);
 
 // Scheme routes
 router.get("/scheme", listSchemes);

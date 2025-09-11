@@ -42,6 +42,7 @@ export const selectScheme = async (req: Request, res: Response) => {
         selected_scheme_id: selectedScheme._id,
         payment_type: "scheme",
         paid_amount: pay_amount,
+        paidAt: new Date(),
         status: "paid"
     });
 

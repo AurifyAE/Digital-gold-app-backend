@@ -10,7 +10,8 @@ const walletSchema: Schema = new Schema<IWalletScheme>(
     user_id: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      unique: true,
+      required: true
     },
     balance: {
       type: Number,

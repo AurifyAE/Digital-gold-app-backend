@@ -9,12 +9,20 @@ import { getAddress } from "../controllers/user/address/get";
 import { updateAddress } from "../controllers/user/address/update";
 import { walletPayment } from "../controllers/user/wallet/payment";
 
+// Middlewares
 import {
     validateAim,
     validateAddress
 } from "../middlewares/validation";
+import {
+    authenticate,
+    authorizeUser
+} from "../middlewares/user/authMiddleware";
 
 const router = express.Router();
+
+// All user routes require authentication and user role
+router.use(authenticate, authorizeUser);
 
 // Scheme routes
 router.get("/scheme", listSchemes);

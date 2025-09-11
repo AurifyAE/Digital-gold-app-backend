@@ -7,10 +7,10 @@ export const addAim = async (req: Request, res: Response) => {
   const userId = (req as any).user?._id;
 
   // Validate input
-  if (!name || !months || !amount || !calculated_emi) {
+  if (!name || !months || !amount || !calculated_emi || !payment_cycle) {
     throw new AppError(
       400,
-      "Please provide name, months, amount and monthly pay!"
+      "Please provide name, months, amount monthly pay and payment cycle!"
     );
   }
 
@@ -31,8 +31,23 @@ export const addAim = async (req: Request, res: Response) => {
   // Dynamically only fields that are provided
   if (payment_date !== undefined && payment_date !== "")
     aimData.payment_date = payment_date;
-  if (payment_cycle !== undefined && payment_cycle !== "")
-    aimData.payment_cycle = payment_cycle;
+
+  // Payment cycle with calculate next payment date
+  const today = new Date();
+
+  switch (payment_cycle) {
+    case "daily":
+      aimData.next_payment_date = new Date(today.getDate() + 1);
+      break;
+    case "weekly":
+      aimData.next_payment_date = new Date(today.setDate(today.getDate() + 7));
+      break;
+    case "monthly":
+      aimData.next_payment_date = new Date(today.setMonth(today.getMonth() + 30));
+      break;
+    default:
+      break;
+  }
 
   // Create new aim
   const aim = new Aim(aimData);

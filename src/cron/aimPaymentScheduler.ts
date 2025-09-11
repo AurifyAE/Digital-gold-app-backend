@@ -40,7 +40,7 @@ export const aimPaymentsDailyScheduler = async () => {
 
             // Update next payment date to tomorrow
             await Aim.findByIdAndUpdate(aim._id, {
-                $set: { next_payment_date: new Date(today.getDate() + 7) },
+                $set: { next_payment_date: new Date(today.getDate() + 1) },
                 $inc: {
                     balance_payout: - aim.calculated_emi,
                     current_saved: aim.calculated_emi,
@@ -87,7 +87,7 @@ export const aimPaymentsWeeklyScheduler = async () => {
                 { $inc: { balance: - aim.calculated_emi } }
             );
 
-            // Update next payment date to tomorrow
+            // Update next payment date to next week
             await Aim.findByIdAndUpdate(aim._id, {
               $set: { next_payment_date: new Date(today.getDate() + 7) },
               $inc: {
@@ -136,7 +136,7 @@ export const aimPaymentsMonthlyScheduler = async () => {
                 { $inc: { balance: - aim.calculated_emi } }
             );
 
-            // Update next payment date to tomorrow
+            // Update next payment date to next month
             await Aim.findByIdAndUpdate(aim._id, {
               $set: { next_payment_date: new Date(today.getDate() + 30) },
               $inc: {

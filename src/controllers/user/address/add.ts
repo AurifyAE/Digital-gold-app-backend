@@ -3,11 +3,11 @@ import AppError from "../../../utils/error";
 import Address from "../../../models/address";
 
 export const addAddress = async (req: Request, res: Response) => {
-    const { street, district, city, state, postal_code } = req.body;
+    const { street, district, city, state, country, postal_code } = req.body;
     const userId = (req as any).user?.user_id;
 
     // Validate input
-    if (!street || !district || !city || !state || !postal_code) {
+    if (!street || !district || !city || !state || !country || !postal_code) {
         throw new AppError(400, "Please provide address details.");
     }
 
@@ -24,6 +24,7 @@ export const addAddress = async (req: Request, res: Response) => {
         district,
         city,
         state,
+        country,
         postal_code
     });
 

@@ -67,11 +67,8 @@ export const register = async (req: Request, res: Response) => {
         gender: user.gender,
         mobile_no: user.mobile_no,
         email: user.email,
-        role: user.role,
-        wallet: {
-          balance: wallet.balance
-        }
-      },
+        role: user.role
+      }
     },
   });
 };

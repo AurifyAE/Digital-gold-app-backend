@@ -7,7 +7,7 @@ import Wallet from "../../../models/wallet";
 
 export const selectScheme = async (req: Request, res: Response) => {
     const { scheme_id, pay_amount, payment_date } = req.body;
-    const userId = (req as any).user?._id;
+    const userId = (req as any).user?.user_id;
 
     // Validate input
     if (!scheme_id || !pay_amount || !payment_date) {

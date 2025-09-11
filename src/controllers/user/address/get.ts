@@ -3,11 +3,7 @@ import AppError from "../../../utils/error";
 import Address from "../../../models/address";
 
 export const getAddress = async (req: Request, res: Response) => {
-    const userId = req.params.id;
-
-    if (!userId) {
-        throw new AppError(400, "Please provide user id.");
-    }
+    const userId = (req as any).user?.user_id;
 
     // Check if address exists
     const address = await Address.findOne({ user_id: userId });

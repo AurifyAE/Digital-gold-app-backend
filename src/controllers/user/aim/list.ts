@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Aim from "../../../models/aim";
 
 export const listAims = async (req: Request, res: Response) => {
-    const userId = (req as any).user?._id;
+    const userId = (req as any).user?.user_id;
 
     const result = await Aim.find({ user_id: userId });
 

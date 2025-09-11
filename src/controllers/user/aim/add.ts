@@ -4,7 +4,7 @@ import Aim from "../../../models/aim";
 
 export const addAim = async (req: Request, res: Response) => {
   const { name, months, amount, payment_date, payment_cycle, calculated_emi } = req.body;
-  const userId = (req as any).user?._id;
+  const userId = (req as any).user?.user_id;
 
   // Validate input
   if (!name || !months || !amount || !calculated_emi || !payment_cycle) {

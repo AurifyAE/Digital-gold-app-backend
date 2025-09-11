@@ -3,7 +3,7 @@ import PaymentHistory from "../../../models/paymentHistory";
 import SelectedScheme from "../../../models/selectedScheme";
 
 export const selectedSchemesList = async (req: Request, res: Response) => {
-    const userId = (req as any).user?._id;
+    const userId = (req as any).user?.user_id;
     
   // Step 1: Find selected schemes for the user
   const selectedSchemes = await SelectedScheme.find({ user_id: userId })

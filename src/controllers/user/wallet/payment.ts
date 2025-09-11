@@ -4,7 +4,7 @@ import PaymentHistory from "../../../models/paymentHistory";
 
 export const walletPayment = async (req: Request, res: Response) => {
     const { transaction_id, amount } = req.body;
-      const userId = (req as any).user?._id;
+      const userId = (req as any).user?.user_id;
     
     // Validate input
     if(!transaction_id || ! amount) throw new AppError(400, "Please provide transaction id and amount!");

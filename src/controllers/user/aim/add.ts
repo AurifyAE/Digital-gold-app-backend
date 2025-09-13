@@ -1,6 +1,60 @@
 import { Request, Response } from "express";
+import {
+  differenceInDays,
+  differenceInWeeks,
+  differenceInMonths,
+  addMonths,
+  format
+} from "date-fns";
 import AppError from "../../../utils/error";
 import Aim from "../../../models/aim";
+
+export const aimCalculation = async (req: Request, res: Response) => {
+  const { months, amount, payment_cycle } = req.body;
+
+  // Validate input
+  if (!months || !amount || !payment_cycle)
+    throw new AppError(
+      400,
+      "Please provide months, target amount and payment cycle!"
+    );
+
+  const start = new Date();
+  const end = addMonths(start, months);
+
+  let totalPayments: number = 0;
+
+  const endDate = format(end, "yyyy-MM-dd");
+
+  switch (payment_cycle) {
+    case "daily":
+      totalPayments = differenceInDays(end, start);
+      break;
+    case "weekly":
+      totalPayments = differenceInWeeks(end, start);
+      break;
+    case "monthly":
+      totalPayments = differenceInMonths(end, start);
+      break;
+    default:
+      throw new AppError(400, "Invalid payment cycle!");
+  }
+
+  // Calculate EMI and total amount
+  const calculatedEmi = Math.ceil(amount / totalPayments);
+  const totalAmount = calculatedEmi * totalPayments;
+
+  res.json({
+    success: true,
+    message: "Aim calculated successfully.",
+    data: {
+      totalPayments,
+      calculatedEmi,
+      totalAmount,
+      endDate,
+    },
+  });
+}
 
 export const addAim = async (req: Request, res: Response) => {
   const { name, months, amount, payment_date, payment_cycle, calculated_emi } = req.body;

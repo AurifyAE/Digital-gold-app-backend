@@ -2,7 +2,7 @@ import express from "express";
 import { listSchemes } from "../controllers/user/scheme/list";
 import { selectScheme } from "../controllers/user/scheme/select";
 import { selectedSchemesList } from "../controllers/user/scheme/selectedSchemesList";
-import { addAim } from "../controllers/user/aim/add";
+import { aimCalculation, addAim } from "../controllers/user/aim/add";
 import { listAims } from "../controllers/user/aim/list";
 import { addAddress } from "../controllers/user/address/add";
 import { getAddress } from "../controllers/user/address/get";
@@ -31,6 +31,7 @@ router.post("/scheme", selectScheme);
 router.get("/scheme-selected", selectedSchemesList);
 
 // Aim routes
+router.post("/aim-calculation", aimCalculation);
 router.post("/aim", validateAim, addAim);
 router.get("/aim", listAims);
 

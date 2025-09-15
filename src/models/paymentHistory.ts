@@ -49,7 +49,6 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
         },
         transaction_id: {
             type: String,
-            unique: true,
             default: null
         }
     },

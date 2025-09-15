@@ -10,6 +10,7 @@ import { updateAddress } from "../controllers/user/address/update";
 import { getProfile } from "../controllers/user/profile/get";
 import { updateDetails } from "../controllers/user/profile/update";
 import { walletPayment } from "../controllers/user/wallet/payment";
+import { getTransactions } from "../controllers/user/transaction/details";
 
 // Middlewares
 import {
@@ -47,5 +48,8 @@ router.patch("/profile", updateDetails);
 
 // Wallet payment route
 router.post("/wallet/payment", walletPayment);
+
+// Transaction routes
+router.get("/transaction", getTransactions);
 
 export default router;

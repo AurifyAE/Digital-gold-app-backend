@@ -23,11 +23,13 @@ export const updatePaymentStatus = async (req: Request, res: Response) => {
     // Update payment status
     const paymentData = await PaymentHistory.findByIdAndUpdate(id, { status });
 
-    // Update wallet balance
-    await Wallet.findOneAndUpdate(
+    if (status === "accepted") {
+      // Update wallet balance
+      await Wallet.findOneAndUpdate(
         { user_id: payment.user_id },
-        { $inc: { balance: payment.paid_amount } }
-    );
+        { $inc: { balance: payment.paid_amount, credit: payment.paid_amount } }
+      );
+    }
 
     res.json({
         success: true,

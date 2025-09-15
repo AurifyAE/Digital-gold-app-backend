@@ -35,7 +35,7 @@ export const aimPaymentsDailyScheduler = async () => {
             // Deduct amount from wallet
             await Wallet.findOneAndUpdate(
                 { user_id: userId },
-                { $inc: { balance: - aim.calculated_emi } }
+                { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
             );
 
             // Update next payment date to tomorrow
@@ -84,7 +84,7 @@ export const aimPaymentsWeeklyScheduler = async () => {
             // Deduct amount from wallet
             await Wallet.findOneAndUpdate(
                 { user_id: userId },
-                { $inc: { balance: - aim.calculated_emi } }
+                { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
             );
 
             // Update next payment date to next week
@@ -133,7 +133,7 @@ export const aimPaymentsMonthlyScheduler = async () => {
             // Deduct amount from wallet
             await Wallet.findOneAndUpdate(
                 { user_id: userId },
-                { $inc: { balance: - aim.calculated_emi } }
+                { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
             );
 
             // Update next payment date to next month

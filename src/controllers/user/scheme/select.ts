@@ -32,8 +32,7 @@ export const selectScheme = async (req: Request, res: Response) => {
     const selectedScheme = await SelectedScheme.create({
         user_id: userId,
         scheme_id,
-        balance_payout,
-        payment_date
+        balance_payout
     });
 
     // Add user selected scheme payment history
@@ -47,8 +46,15 @@ export const selectScheme = async (req: Request, res: Response) => {
     });
 
     // Update wallet balance
-    const walletBalance = findWallet.balance - pay_amount;
-    await Wallet.findOneAndUpdate({ user_id: userId }, { balance: walletBalance });
+    await Wallet.findOneAndUpdate(
+      { user_id: userId },
+      {
+        $inc: {
+          balance: -pay_amount,
+          debit: pay_amount,
+        },
+      }
+    );
 
     // Update user selected scheme not editable
     await Scheme.findByIdAndUpdate({ _id: scheme_id }, { editable: false });

@@ -5,6 +5,7 @@ export interface ISelectedScheme extends Document {
     scheme_id: Types.ObjectId;
     balance_payout: number;
     status: string;
+    next_payment_date: Date
 }
 
 const selectedSchemeSchema: Schema = new Schema<ISelectedScheme>(
@@ -22,6 +23,10 @@ const selectedSchemeSchema: Schema = new Schema<ISelectedScheme>(
         balance_payout: {
             type: Number,
             required: true,
+        },
+        next_payment_date: {
+            type: Date,
+            required: true
         },
         status: {
             type: String,

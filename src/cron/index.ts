@@ -4,6 +4,7 @@ import {
   aimPaymentsMonthlyScheduler,
   aimPaymentsWeeklyScheduler,
 } from "./aimPaymentScheduler";
+import { schemePaymentScheduler } from "./schemePaymentScheduler";
 
 class JobScheduler {
   static initializeJobs() {
@@ -19,9 +20,9 @@ class JobScheduler {
     );
 
     // Create weekly aim payments for active aims
-    // Run every Monday at 12:00 AM
+    // Run every day at 12:00 AM
     cron.schedule(
-      "0 0 * * 1",
+      "0 0 * * *",
       () => {
         aimPaymentsWeeklyScheduler();
         console.log("Creating weekly aim payments");
@@ -30,9 +31,9 @@ class JobScheduler {
     );
 
     // Create monthly aim payments for active aims
-    // Run every month 1st day at 12:00 AM
+    // Run every day at 12:00 AM
     cron.schedule(
-      "0 0 1 * *",
+      "0 0 * * *",
       () => {
         aimPaymentsMonthlyScheduler();
         console.log("Creating monthly aim payments");
@@ -40,6 +41,17 @@ class JobScheduler {
       {
         timezone: "Asia/Kolkata",
       }
+    );
+
+    // Create scheme payments for active schemes
+    // Run every day at 12:00 AM
+    cron.schedule(
+      "0 0 * * *",
+      () => {
+        schemePaymentScheduler();
+        console.log("Creating scheme payments");
+      },
+      { timezone: "Asia/Kolkata" }
     );
 
     console.log("✅ Cron jobs initialized successfully");

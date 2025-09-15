@@ -8,6 +8,7 @@ import { addAddress } from "../controllers/user/address/add";
 import { getAddress } from "../controllers/user/address/get";
 import { updateAddress } from "../controllers/user/address/update";
 import { getProfile } from "../controllers/user/profile/get";
+import { updateDetails } from "../controllers/user/profile/update";
 import { walletPayment } from "../controllers/user/wallet/payment";
 
 // Middlewares
@@ -42,6 +43,7 @@ router.patch("/address", updateAddress);
 
 // Profile routes
 router.get("/profile", getProfile);
+router.patch("/profile", updateDetails);
 
 // Wallet payment route
 router.post("/wallet/payment", walletPayment);

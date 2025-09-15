@@ -63,6 +63,7 @@ export const listUsers = async (req: Request, res: Response) => {
               selected_scheme_id: 1,
             },
           },
+          { $sort: { createdAt: -1 } },
         ],
         as: "selected_schemes.payment_history",
       },
@@ -98,6 +99,7 @@ export const listUsers = async (req: Request, res: Response) => {
         createdAt: 1,
       },
     },
+    { $sort: { createdAt: -1 } },
   ]);
 
   res.json({

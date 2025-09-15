@@ -42,6 +42,7 @@ export const listSchemes = async (req: Request, res: Response) => {
         },
       },
     },
+    { $sort: {createdAt: -1} },
   ]);
 
   res.json({

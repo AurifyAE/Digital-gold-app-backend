@@ -33,6 +33,11 @@ export const listPayments = async (req: Request, res: Response) => {
         user: 1,
       },
     },
+    {
+      $sort: {
+        createdAt: -1,
+      },
+    },
   ]);
 
   res.json({

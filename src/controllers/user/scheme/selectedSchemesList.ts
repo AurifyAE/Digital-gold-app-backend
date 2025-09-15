@@ -8,6 +8,7 @@ export const selectedSchemesList = async (req: Request, res: Response) => {
   // Step 1: Find selected schemes for the user
   const selectedSchemes = await SelectedScheme.find({ user_id: userId })
     .select("_id scheme_id balance_payout status createdAt")
+    .sort({ createdAt: -1 })
     .populate({
       path: "scheme_id",
       select: "name months monthly_pay amount bonus",

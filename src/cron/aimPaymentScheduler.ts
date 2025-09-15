@@ -2,6 +2,7 @@ import AppError from "../utils/error";
 import Aim from "../models/aim";
 import paymentHistory from "../models/paymentHistory";
 import Wallet from "../models/wallet";
+import { generateTransactionId } from "../services/transactionId";
 
 export const aimPaymentsDailyScheduler = async () => {
     try {
@@ -23,12 +24,16 @@ export const aimPaymentsDailyScheduler = async () => {
             const aim = aims[i];
             const userId = aim.user_id;
 
+            const transactionId = generateTransactionId();
+
             // Add to pending payment history
             await paymentHistory.create({
                 user_id: userId,
                 aim_id: aim._id,
                 paid_amount: aim.calculated_emi,
                 payment_type: "aim",
+                paidAt: new Date(),
+                transaction_id: transactionId,
                 status: "paid"
             });
 
@@ -72,12 +77,16 @@ export const aimPaymentsWeeklyScheduler = async () => {
             const aim = aims[i];
             const userId = aim.user_id;
 
+            const transactionId = generateTransactionId();
+
             // Add to pending payment history
             await paymentHistory.create({
             user_id: userId,
             aim_id: aim._id,
             paid_amount: aim.calculated_emi,
             payment_type: "aim",
+            paidAt: new Date(),
+            transaction_id: transactionId,
             status: "paid",
             });
 
@@ -121,12 +130,16 @@ export const aimPaymentsMonthlyScheduler = async () => {
             const aim = aims[i];
             const userId = aim.user_id;
 
+            const transactionId = generateTransactionId();
+
             // Add to pending payment history
             await paymentHistory.create({
             user_id: userId,
             aim_id: aim._id,
             paid_amount: aim.calculated_emi,
             payment_type: "aim",
+            paidAt: new Date(),
+            transaction_id: transactionId,
             status: "paid",
             });
 

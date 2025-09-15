@@ -4,6 +4,7 @@ import Scheme from "../../../models/scheme";
 import SelectedScheme from "../../../models/selectedScheme";
 import PaymentHistory from "../../../models/paymentHistory";
 import Wallet from "../../../models/wallet";
+import { generateTransactionId } from "../../../services/transactionId"
 
 export const selectScheme = async (req: Request, res: Response) => {
     const { scheme_id, pay_amount } = req.body;
@@ -35,12 +36,15 @@ export const selectScheme = async (req: Request, res: Response) => {
         balance_payout
     });
 
+    const transactionId = generateTransactionId();
+
     // Add user selected scheme payment history
     await PaymentHistory.create({
         user_id: userId,
         selected_scheme_id: selectedScheme._id,
         payment_type: "scheme",
         paid_amount: pay_amount,
+        transaction_id: transactionId,
         paidAt: new Date(),
         status: "paid"
     });

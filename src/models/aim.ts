@@ -5,7 +5,6 @@ export interface IAimScheme extends Document {
   name: string;
   months: number;
   amount: number;
-  payment_date: number;
   next_payment_date: Date;
   balance_payout: number;
   payment_cycle: string;

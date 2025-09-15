@@ -6,11 +6,11 @@ import PaymentHistory from "../../../models/paymentHistory";
 import Wallet from "../../../models/wallet";
 
 export const selectScheme = async (req: Request, res: Response) => {
-    const { scheme_id, pay_amount, payment_date } = req.body;
+    const { scheme_id, pay_amount } = req.body;
     const userId = (req as any).user?.user_id;
 
     // Validate input
-    if (!scheme_id || !pay_amount || !payment_date) {
+    if (!scheme_id || !pay_amount) {
         throw new AppError(400, "Please provide scheme id and payment details.");
     }
 

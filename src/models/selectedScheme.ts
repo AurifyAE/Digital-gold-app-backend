@@ -4,7 +4,6 @@ export interface ISelectedScheme extends Document {
     user_id: Types.ObjectId;
     scheme_id: Types.ObjectId;
     balance_payout: number;
-    payment_date: number;
     status: string;
 }
 
@@ -23,12 +22,6 @@ const selectedSchemeSchema: Schema = new Schema<ISelectedScheme>(
         balance_payout: {
             type: Number,
             required: true,
-        },
-        payment_date: {
-            type: Number,
-            required: true,
-            min: 1,
-            max: 30
         },
         status: {
             type: String,

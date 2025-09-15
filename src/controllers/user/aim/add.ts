@@ -57,7 +57,7 @@ export const aimCalculation = async (req: Request, res: Response) => {
 }
 
 export const addAim = async (req: Request, res: Response) => {
-  const { name, months, amount, payment_date, payment_cycle, calculated_emi } = req.body;
+  const { name, months, amount, payment_cycle, calculated_emi } = req.body;
   const userId = (req as any).user?.user_id;
 
   // Validate input
@@ -81,10 +81,6 @@ export const addAim = async (req: Request, res: Response) => {
   aimData.months = months;
   aimData.amount = amount;
   aimData.calculated_emi = calculated_emi;
-
-  // Dynamically only fields that are provided
-  if (payment_date !== undefined && payment_date !== "")
-    aimData.payment_date = payment_date;
 
   // Payment cycle with calculate next payment date
   const today = new Date();

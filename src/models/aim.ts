@@ -33,13 +33,6 @@ const aimSchema: Schema = new Schema<IAimScheme>(
       type: Number,
       required: true,
     },
-    payment_date: {
-      type: Number,
-      required: true,
-      min: 1,
-      max: 30,
-      default: 1,
-    },
     next_payment_date: {
       type: Date,
       required: true

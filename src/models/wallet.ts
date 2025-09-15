@@ -3,6 +3,8 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 export interface IWalletScheme extends Document {
   user_id: Types.ObjectId;
   balance: number;
+  credit: number;
+  debit: number;
 }
 
 const walletSchema: Schema = new Schema<IWalletScheme>(
@@ -18,6 +20,14 @@ const walletSchema: Schema = new Schema<IWalletScheme>(
       default: 0,
       min: 0
     },
+    credit: {
+      type: Number,
+      default: 0
+    },
+    debit: {
+      type: Number,
+      default: 0
+    }
   },
   {
     timestamps: true,

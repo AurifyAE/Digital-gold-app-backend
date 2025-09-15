@@ -91,7 +91,7 @@ export const addAim = async (req: Request, res: Response) => {
       aimData.next_payment_date = new Date(today.setDate(today.getDate() + 7));
       break;
     case "monthly":
-      aimData.next_payment_date = new Date(today.setMonth(today.getMonth() + 30));
+      aimData.next_payment_date = new Date(today.setMonth(today.getDate() + 30));
       break;
     default:
       break;

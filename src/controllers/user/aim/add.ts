@@ -69,10 +69,8 @@ export const addAim = async (req: Request, res: Response) => {
   }
 
   // Check if scheme already exists
-  const existingScheme = await Aim.findOne({ name });
-  if (existingScheme) {
-    throw new AppError(400, "Scheme name already exists.");
-  }
+  const existingScheme = await Aim.findOne({ user_id: userId, name: name });
+  if (existingScheme) throw new AppError(400, "Scheme name already exists.");
 
   const aimData: any = {};
 

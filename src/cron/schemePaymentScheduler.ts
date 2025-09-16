@@ -41,7 +41,9 @@ export const schemePaymentScheduler = async () => {
                 status: "paid"
             });
 
-            const nextPayment = new Date(today.getDate() + 30);
+            // const nextPayment = new Date(today.getDate() + 30);
+            const nextPayment = today;
+            nextPayment.setDate(nextPayment.getDate() + 30);
 
             // Update selected scheme balance payout
             await SelectedScheme.updateOne(

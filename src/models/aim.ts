@@ -44,7 +44,6 @@ const aimSchema: Schema = new Schema<IAimScheme>(
     payment_cycle: {
       type: String,
       required: true,
-      default: "monthly",
     },
     calculated_emi: {
       type: Number,

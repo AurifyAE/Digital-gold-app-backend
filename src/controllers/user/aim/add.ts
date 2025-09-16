@@ -78,6 +78,7 @@ export const addAim = async (req: Request, res: Response) => {
   aimData.name = name;
   aimData.months = months;
   aimData.amount = amount;
+  aimData.payment_cycle = payment_cycle;
   aimData.calculated_emi = calculated_emi;
 
   // Payment cycle with calculate next payment date

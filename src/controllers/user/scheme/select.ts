@@ -30,8 +30,8 @@ export const selectScheme = async (req: Request, res: Response) => {
     const balance_payout = findScheme.amount - pay_amount;
 
     // Fetch today date for next payment date
-    const today = new Date();
-    const nextPayment = new Date(today.getDate() + 30);
+    const nextPayment = new Date();
+    nextPayment.setDate(nextPayment.getDate() + 30);
 
     // Create selected scheme
     const selectedScheme = await SelectedScheme.create({

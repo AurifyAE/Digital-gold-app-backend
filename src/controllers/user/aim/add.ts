@@ -82,17 +82,17 @@ export const addAim = async (req: Request, res: Response) => {
   aimData.calculated_emi = calculated_emi;
 
   // Payment cycle with calculate next payment date
-  const today = new Date();
+  const nextPayment = new Date();
 
   switch (payment_cycle) {
     case "daily":
-      aimData.next_payment_date = new Date(today.getDate() + 1);
+      aimData.next_payment_date = nextPayment.setDate(nextPayment.getDate() + 1);
       break;
     case "weekly":
-      aimData.next_payment_date = new Date(today.setDate(today.getDate() + 7));
+      aimData.next_payment_date = nextPayment.setDate(nextPayment.getDate() + 7);
       break;
     case "monthly":
-      aimData.next_payment_date = new Date(today.setMonth(today.getDate() + 30));
+      aimData.next_payment_date = nextPayment.setDate(nextPayment.getDate() + 30);
       break;
     default:
       break;

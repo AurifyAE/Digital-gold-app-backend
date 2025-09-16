@@ -22,8 +22,8 @@ export const aimPaymentsDailyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-            const userId = aim.user_id;
 
+            const userId = aim.user_id;
             const transactionId = generateTransactionId();
 
             // Add to pending payment history
@@ -43,9 +43,12 @@ export const aimPaymentsDailyScheduler = async () => {
                 { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
             );
 
+            const nextPayment = today
+            nextPayment.setDate(today.getDate() + 1);
+
             // Update next payment date to tomorrow
             await Aim.findByIdAndUpdate(aim._id, {
-                $set: { next_payment_date: new Date(today.getDate() + 1) },
+                $set: { next_payment_date: nextPayment },
                 $inc: {
                     balance_payout: - aim.calculated_emi,
                     current_saved: aim.calculated_emi,
@@ -96,9 +99,12 @@ export const aimPaymentsWeeklyScheduler = async () => {
                 { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
             );
 
+            const nextPayment = today;
+            nextPayment.setDate(today.getDate() + 7);
+
             // Update next payment date to next week
             await Aim.findByIdAndUpdate(aim._id, {
-              $set: { next_payment_date: new Date(today.getDate() + 7) },
+              $set: { next_payment_date: nextPayment },
               $inc: {
                 balance_payout: - aim.calculated_emi,
                 current_saved: aim.calculated_emi
@@ -149,9 +155,12 @@ export const aimPaymentsMonthlyScheduler = async () => {
                 { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
             );
 
+            const nextPayment = today;
+            nextPayment.setDate(today.getDate() + 30);
+
             // Update next payment date to next month
             await Aim.findByIdAndUpdate(aim._id, {
-              $set: { next_payment_date: new Date(today.getDate() + 30) },
+              $set: { next_payment_date: nextPayment },
               $inc: {
                 balance_payout: - aim.calculated_emi,
                 current_saved: aim.calculated_emi

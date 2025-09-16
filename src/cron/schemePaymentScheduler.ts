@@ -25,6 +25,12 @@ export const schemePaymentScheduler = async () => {
             const userId = scheme.user_id;
             const schemeId = scheme.scheme_id;
 
+            // If the balance payout amount less than equals to zero then update the status completed
+            if (scheme.balance_payout <= 0) {
+                await SelectedScheme.findByIdAndUpdate(schemeId, { $set: { status: "completed" } });
+                continue;
+            }
+
             const findScheme: any = await Scheme.findById(schemeId);
             const monthlyPay = findScheme.monthly_pay;
 

@@ -23,6 +23,12 @@ export const aimPaymentsDailyScheduler = async () => {
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
 
+            // If the balance payout amount less than equals to zero then update the status completed
+            if (aim.balance_payout <= 0) {
+                await Aim.findByIdAndUpdate(aim._id, { $set: { status: "completed" } });
+                continue;
+            }
+
             const userId = aim.user_id;
             const transactionId = generateTransactionId();
 
@@ -78,25 +84,35 @@ export const aimPaymentsWeeklyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-            const userId = aim.user_id;
 
+            // If the balance payout amount less than equals to zero then update the status completed
+            if (aim.balance_payout <= 0) {
+                await Aim.findByIdAndUpdate(aim._id, {
+                $set: { status: "completed" },
+                });
+                continue;
+            }
+                
+            const userId = aim.user_id;
             const transactionId = generateTransactionId();
 
             // Add to pending payment history
             await paymentHistory.create({
-            user_id: userId,
-            aim_id: aim._id,
-            paid_amount: aim.calculated_emi,
-            payment_type: "aim",
-            paidAt: new Date(),
-            transaction_id: transactionId,
-            status: "paid",
+                user_id: userId,
+                aim_id: aim._id,
+                paid_amount: aim.calculated_emi,
+                payment_type: "aim",
+                paidAt: new Date(),
+                transaction_id: transactionId,
+                status: "paid",
             });
 
             // Deduct amount from wallet
             await Wallet.findOneAndUpdate(
                 { user_id: userId },
-                { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
+                {
+                $inc: { balance: -aim.calculated_emi, debit: aim.calculated_emi },
+                }
             );
 
             const nextPayment = today;
@@ -104,11 +120,11 @@ export const aimPaymentsWeeklyScheduler = async () => {
 
             // Update next payment date to next week
             await Aim.findByIdAndUpdate(aim._id, {
-              $set: { next_payment_date: nextPayment },
-              $inc: {
-                balance_payout: - aim.calculated_emi,
-                current_saved: aim.calculated_emi
-              },
+                $set: { next_payment_date: nextPayment },
+                $inc: {
+                balance_payout: -aim.calculated_emi,
+                current_saved: aim.calculated_emi,
+                },
             });
         }
     } catch (error) {
@@ -134,25 +150,35 @@ export const aimPaymentsMonthlyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-            const userId = aim.user_id;
 
+            // If the balance payout amount less than equals to zero then update the status completed
+            if (aim.balance_payout <= 0) {
+                await Aim.findByIdAndUpdate(aim._id, {
+                $set: { status: "completed" },
+                });
+                continue;
+            }
+
+            const userId = aim.user_id;
             const transactionId = generateTransactionId();
 
             // Add to pending payment history
             await paymentHistory.create({
-            user_id: userId,
-            aim_id: aim._id,
-            paid_amount: aim.calculated_emi,
-            payment_type: "aim",
-            paidAt: new Date(),
-            transaction_id: transactionId,
-            status: "paid",
+                user_id: userId,
+                aim_id: aim._id,
+                paid_amount: aim.calculated_emi,
+                payment_type: "aim",
+                paidAt: new Date(),
+                transaction_id: transactionId,
+                status: "paid",
             });
 
             // Deduct amount from wallet
             await Wallet.findOneAndUpdate(
                 { user_id: userId },
-                { $inc: { balance: - aim.calculated_emi, debit: aim.calculated_emi } }
+                {
+                $inc: { balance: -aim.calculated_emi, debit: aim.calculated_emi },
+                }
             );
 
             const nextPayment = today;
@@ -160,11 +186,11 @@ export const aimPaymentsMonthlyScheduler = async () => {
 
             // Update next payment date to next month
             await Aim.findByIdAndUpdate(aim._id, {
-              $set: { next_payment_date: nextPayment },
-              $inc: {
-                balance_payout: - aim.calculated_emi,
-                current_saved: aim.calculated_emi
-              }
+                $set: { next_payment_date: nextPayment },
+                $inc: {
+                balance_payout: -aim.calculated_emi,
+                current_saved: aim.calculated_emi,
+                },
             });
         }
     } catch (error) {

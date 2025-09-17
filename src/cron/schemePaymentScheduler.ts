@@ -7,6 +7,7 @@ import { generateTransactionId } from "../services/transactionId";
 
 export const schemePaymentScheduler = async () => {
     try {
+        console.log("Start creating scheme payments");
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -66,6 +67,7 @@ export const schemePaymentScheduler = async () => {
                 { $inc: { balance: -monthlyPay, debit: monthlyPay } }
             )
         }
+        console.log("Done creating scheme payments");
     } catch (error) {
         throw new AppError(500, "Internal server error");
     }

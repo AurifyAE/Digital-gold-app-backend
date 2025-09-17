@@ -6,6 +6,7 @@ import { generateTransactionId } from "../services/transactionId";
 
 export const aimPaymentsDailyScheduler = async () => {
     try {
+        console.log("Start creating daily aim payments");
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -61,6 +62,7 @@ export const aimPaymentsDailyScheduler = async () => {
                 }
             });
         }
+        console.log("Done creating daily aim payments");
     } catch (error) {
         throw new AppError(500, "Internal server error");
     }
@@ -68,6 +70,7 @@ export const aimPaymentsDailyScheduler = async () => {
 
 export const aimPaymentsWeeklyScheduler = async () => {
     try {
+        console.log("Start creating weekly aim payments");
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -127,6 +130,7 @@ export const aimPaymentsWeeklyScheduler = async () => {
                 },
             });
         }
+        console.log("Done creating weekly aim payments");
     } catch (error) {
         throw new AppError(500, "Internal server error");
     }
@@ -134,6 +138,7 @@ export const aimPaymentsWeeklyScheduler = async () => {
 
 export const aimPaymentsMonthlyScheduler = async () => {
     try {
+        console.log("Start creating monthly aim payments");
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -193,6 +198,7 @@ export const aimPaymentsMonthlyScheduler = async () => {
                 },
             });
         }
+        console.log("Done creating monthly aim payments");
     } catch (error) {
         throw new AppError(500, "Internal server error");
     }

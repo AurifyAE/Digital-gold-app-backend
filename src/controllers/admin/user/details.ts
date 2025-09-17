@@ -17,20 +17,22 @@ export const detailsUser = async (req: Request, res: Response) => {
         throw new AppError(400, "User not found.");
     }
   
-  const userId = new mongoose.Types.ObjectId(id);
-
+    const userId = new mongoose.Types.ObjectId(id);
+    
     const userDetails = await User.aggregate([
       {
         $match: {
           _id: userId,
           role: "user",
-          is_deleted: false, // optional: exclude deleted user
+          is_deleted: false,
         },
       },
       {
         $project: {
           first_name: 1,
           last_name: 1,
+          date_of_birth: 1,
+          gender: 1,
           mobile_no: 1,
           email: 1,
           is_active: 1,
@@ -38,86 +40,113 @@ export const detailsUser = async (req: Request, res: Response) => {
           createdAt: 1,
         },
       },
+      // --- Get selected schemes with schemeDetails and payment history ---
       {
         $lookup: {
           from: "selectedschemes",
-          localField: "_id",
-          foreignField: "user_id",
-          as: "selected_schemes",
-        },
-      },
-      {
-        $unwind: {
-          path: "$selected_schemes",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $lookup: {
-          from: "schemes",
-          localField: "selected_schemes.scheme_id",
-          foreignField: "_id",
-          as: "selected_schemes.scheme",
-        },
-      },
-      {
-        $unwind: {
-          path: "$selected_schemes.scheme",
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $lookup: {
-          from: "paymenthistories",
-          let: { selectedSchemeId: "$selected_schemes._id" },
+          let: { userId: "$_id" },
           pipeline: [
+            { $match: { $expr: { $eq: ["$user_id", "$$userId"] } } },
             {
-              $match: {
-                $expr: { $eq: ["$selected_scheme_id", "$$selectedSchemeId"] },
+              $lookup: {
+                from: "schemes",
+                localField: "scheme_id",
+                foreignField: "_id",
+                as: "scheme",
               },
             },
+            { $unwind: { path: "$scheme", preserveNullAndEmptyArrays: true } },
             {
-              $project: {
-                paid_amount: 1,
-                paidAt: 1,
-                remarks: 1,
-                user_id: 1,
-                selected_scheme_id: 1,
+              $lookup: {
+                from: "paymenthistories",
+                let: { selectedSchemeId: "$_id" },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $eq: ["$selected_scheme_id", "$$selectedSchemeId"],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      paid_amount: 1,
+                      paidAt: 1,
+                      remarks: 1,
+                      user_id: 1,
+                      selected_scheme_id: 1,
+                      status: 1,
+                    },
+                  },
+                ],
+                as: "payment_history",
               },
             },
           ],
-          as: "selected_schemes.payment_history",
+          as: "selected_schemes",
+        },
+      },
+      // --- Get aims with payment history ---
+      {
+        $lookup: {
+          from: "aims",
+          let: { userId: "$_id" },
+          pipeline: [
+            { $match: { $expr: { $eq: ["$user_id", "$$userId"] } } },
+            {
+              $lookup: {
+                from: "paymenthistories",
+                let: { aimId: "$_id" },
+                pipeline: [
+                  { $match: { $expr: { $eq: ["$aim_id", "$$aimId"] } } },
+                  {
+                    $project: {
+                      paid_amount: 1,
+                      paidAt: 1,
+                      remarks: 1,
+                      user_id: 1,
+                      aim_id: 1,
+                      status: 1,
+                    },
+                  },
+                ],
+                as: "payment_history",
+              },
+            },
+          ],
+          as: "aims",
+        },
+      },
+      // --- Get user wallet ---
+      {
+        $lookup: {
+          from: "wallets",
+          localField: "_id",
+          foreignField: "user_id",
+          as: "wallet",
         },
       },
       {
-        $group: {
-          _id: "$_id",
-          first_name: { $first: "$first_name" },
-          last_name: { $first: "$last_name" },
-          mobile_no: { $first: "$mobile_no" },
-          email: { $first: "$email" },
-          is_active: { $first: "$is_active" },
-          is_deleted: { $first: "$is_deleted" },
-          createdAt: { $first: "$createdAt" },
-          selected_schemes: { $push: "$selected_schemes" },
+        $addFields: {
+          wallet: { $arrayElemAt: ["$wallet", 0] },
         },
       },
+      // --- Final projection ---
       {
         $project: {
-          selected_schemes: {
-            $filter: {
-              input: "$selected_schemes",
-              as: "scheme",
-              cond: { $ne: ["$$scheme", null] },
-            },
-          },
+          _id: 1,
           first_name: 1,
           last_name: 1,
+          date_of_birth: 1,
+          gender: 1,
           mobile_no: 1,
           email: 1,
           is_active: 1,
           is_deleted: 1,
           createdAt: 1,
+          selected_schemes: 1,
+          aims: 1,
+          wallet: 1,
         },
       },
     ]);

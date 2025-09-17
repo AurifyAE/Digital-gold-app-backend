@@ -4,6 +4,7 @@ export interface IPaymentHistory extends Document {
     user_id: Types.ObjectId;
     selected_scheme_id: Types.ObjectId;
     aim_id: Types.ObjectId;
+    wallet_id: Types.ObjectId;
     payment_type: string;
     paid_amount: number;
     paidAt: Date;
@@ -27,6 +28,11 @@ const paymentHistorySchema: Schema = new Schema<IPaymentHistory>(
             type: Schema.Types.ObjectId,
             ref: "Aim",
             required: function () { return this.payment_type === "aim"; },
+        },
+        wallet_id: {
+            type: Schema.Types.ObjectId,
+            ref: "Wallet",
+            required: function () { return this.payment_type === "wallet"; },
         },
         payment_type: {
             type: String,

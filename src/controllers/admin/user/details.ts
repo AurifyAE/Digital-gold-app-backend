@@ -123,13 +123,51 @@ export const detailsUser = async (req: Request, res: Response) => {
           from: "wallets",
           localField: "_id",
           foreignField: "user_id",
-          as: "wallet",
-        },
+          as: "wallet"
+        }
       },
+      // Flatten wallet array to single wallet object
       {
         $addFields: {
-          wallet: { $arrayElemAt: ["$wallet", 0] },
-        },
+          wallet: { $arrayElemAt: ["$wallet", 0] }
+        }
+      },
+      // Lookup payment history (assuming each wallet has unique _id)
+      {
+        $lookup: {
+          from: "paymenthistories",
+          let: { walletId: "$wallet._id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: { $eq: ["$wallet_id", "$$walletId"] }
+              }
+            },
+            {
+              $project: {
+                paid_amount: 1,
+                paidAt: 1,
+                remarks: 1,
+                user_id: 1,
+                wallet_id: 1,
+                status: 1
+              }
+            }
+          ],
+          as: "wallet_payment_history"
+        }
+      },
+      // Embed payment history into wallet object (if desired)
+      {
+        $addFields: {
+          "wallet.payment_history": "$wallet_payment_history"
+        }
+      },
+      // Optionally: remove 'wallet_payment_history' flat field
+      {
+        $project: {
+          wallet_payment_history: 0
+        }
       },
       // --- Final projection ---
       {

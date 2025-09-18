@@ -11,6 +11,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: string;
+  kyc_verified: boolean;
   is_active: boolean;
   is_deleted: boolean;
   updatedAt: Date;
@@ -60,6 +61,10 @@ const userSchema: Schema = new Schema<IUser>(
       type: String,
       required: [true, "Role is required"],
       default: "user",
+    },
+    kyc_verified: {
+      type: Boolean,
+      default: false,
     },
     is_active: {
       type: Boolean,

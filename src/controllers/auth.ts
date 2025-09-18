@@ -34,9 +34,13 @@ export const register = async (req: Request, res: Response) => {
   }
 
   // Check if user already exists
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({
+    $or: [{ email }, { mobile_no }]
+  });
+
   if (existingUser) {
-    throw new AppError(400, "User already exists.");
+    let field = existingUser.email === email ? "Email" : "Mobile number";
+    throw new AppError(409, `${field} already exists`);
   }
 
   // Create new user
@@ -51,7 +55,7 @@ export const register = async (req: Request, res: Response) => {
   });
 
   // Create wallet
-  const wallet = await Wallet.create({
+  await Wallet.create({
     user_id: user._id
   });
 

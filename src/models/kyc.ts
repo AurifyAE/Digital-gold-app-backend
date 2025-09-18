@@ -55,5 +55,7 @@ const kycSchema: Schema = new Schema<IKyc>(
     }
 );
 
+kycSchema.index({ user_id: 1 }, { unique: true });
+
 const kyc = mongoose.model<IKyc>("Kyc", kycSchema);
 export default kyc;

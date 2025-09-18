@@ -7,12 +7,12 @@ import Wallet from "../../../models/wallet";
 import { generateTransactionId } from "../../../services/transactionId"
 
 export const selectScheme = async (req: Request, res: Response) => {
-    const { scheme_id, pay_amount } = req.body;
+    const { scheme_id, pay_amount, scheme_type } = req.body;
     const userId = (req as any).user?.user_id;
 
     // Validate input
-    if (!scheme_id || !pay_amount) {
-        throw new AppError(400, "Please provide scheme id and payment details.");
+    if (!scheme_id || !pay_amount || !scheme_type) {
+        throw new AppError(400, "Please provide scheme id, scheme type and payment details.");
     }
 
     // Check if scheme exists
@@ -38,6 +38,7 @@ export const selectScheme = async (req: Request, res: Response) => {
         user_id: userId,
         scheme_id,
         balance_payout,
+        scheme_type,
         next_payment_date: nextPayment
     });
 

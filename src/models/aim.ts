@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 
-export interface IAimScheme extends Document {
+export interface IAim extends Document {
   user_id: Types.ObjectId;
   name: string;
   months: number;
@@ -13,7 +13,7 @@ export interface IAimScheme extends Document {
   status: string;
 }
 
-const aimSchema: Schema = new Schema<IAimScheme>(
+const aimSchema: Schema = new Schema<IAim>(
   {
     user_id: {
       type: Schema.Types.ObjectId,
@@ -65,5 +65,5 @@ const aimSchema: Schema = new Schema<IAimScheme>(
   }
 );
 
-const Aim = mongoose.model<IAimScheme>("Aim", aimSchema);
+const Aim = mongoose.model<IAim>("Aim", aimSchema);
 export default Aim;

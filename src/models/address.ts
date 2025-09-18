@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
 
-export interface IAddressScheme extends Document {
+export interface IAddress extends Document {
   user_id: Types.ObjectId;
   street: string;
   district: string;
@@ -11,7 +11,7 @@ export interface IAddressScheme extends Document {
   is_deleted: boolean;
 }
 
-const addressSchema: Schema = new Schema<IAddressScheme>(
+const addressSchema: Schema = new Schema<IAddress>(
   {
     user_id: {
       type: Schema.Types.ObjectId,
@@ -54,6 +54,5 @@ const addressSchema: Schema = new Schema<IAddressScheme>(
   }
 );
 
-const address = mongoose.model<IAddressScheme>("Address", addressSchema);
-
+const address = mongoose.model<IAddress>("Address", addressSchema);
 export default address;

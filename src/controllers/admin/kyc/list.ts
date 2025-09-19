@@ -47,7 +47,7 @@ export const pendingKycList = async (req: Request, res: Response) => {
         },
     ]);
 
-    res.status(200).json({
+    res.json({
         success: true,
         message: "Pending KYC list fetched successfully",
         data: pendingKycList,

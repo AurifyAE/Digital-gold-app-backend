@@ -13,6 +13,7 @@ import { deleteUser } from "../controllers/admin/user/delete";
 
 // Kyc
 import { pendingKycList } from "../controllers/admin/kyc/list";
+import { updateKycStatus } from "../controllers/admin/kyc/update";
 
 // Payment
 import { listPayments } from "../controllers/admin/payment/list";
@@ -45,6 +46,7 @@ router.delete("/user/:id", deleteUser);
 
 // Kyc routes
 router.get("/kyc", pendingKycList);
+router.patch("/kyc", updateKycStatus);
 
 // Payment routes
 router.get("/payment", listPayments);

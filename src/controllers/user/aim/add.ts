@@ -8,6 +8,7 @@ import {
 } from "date-fns";
 import AppError from "../../../utils/error";
 import Aim from "../../../models/aim";
+import User from "../../../models/user";
 
 export const aimCalculation = async (req: Request, res: Response) => {
   const { months, amount, payment_cycle } = req.body;
@@ -59,6 +60,10 @@ export const aimCalculation = async (req: Request, res: Response) => {
 export const addAim = async (req: Request, res: Response) => {
   const { name, months, amount, payment_cycle, calculated_emi } = req.body;
   const userId = (req as any).user?.user_id;
+
+    // Check if user kyc verified
+  const findUser: any = await User.findById(userId);
+  if (!findUser.kyc_verified) throw new AppError(403, "User kyc not verified.");
 
   // Validate input
   if (!name || !months || !amount || !calculated_emi || !payment_cycle) {

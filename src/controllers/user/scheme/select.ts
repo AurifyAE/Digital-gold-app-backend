@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import AppError from "../../../utils/error";
+import User from "../../../models/user";
 import Scheme from "../../../models/scheme";
 import SelectedScheme from "../../../models/selectedScheme";
 import PaymentHistory from "../../../models/paymentHistory";
@@ -10,16 +11,17 @@ export const selectScheme = async (req: Request, res: Response) => {
     const { scheme_id, pay_amount, scheme_type } = req.body;
     const userId = (req as any).user?.user_id;
 
+    // Check if user kyc verified
+    const findUser: any = await User.findById(userId);
+    if (!findUser.kyc_verified) throw new AppError(403, "User kyc not verified.");
+
     // Validate input
-    if (!scheme_id || !pay_amount || !scheme_type) {
+    if (!scheme_id || !pay_amount || !scheme_type)
         throw new AppError(400, "Please provide scheme id, scheme type and payment details.");
-    }
 
     // Check if scheme exists
     const findScheme = await Scheme.findById(scheme_id);
-    if (!findScheme) {
-        throw new AppError(400, "Scheme not found.");
-    }
+    if (!findScheme) throw new AppError(400, "Scheme not found.");
 
     // Check if user has enough balance
     const findWallet: any = await Wallet.findOne({ user_id: userId });

@@ -7,6 +7,7 @@ import { listAims } from "../controllers/user/aim/list";
 import { addAddress } from "../controllers/user/address/add";
 import { getAddress } from "../controllers/user/address/get";
 import { updateAddress } from "../controllers/user/address/update";
+import { addKyc } from "../controllers/user/kyc/add";
 import { getProfile } from "../controllers/user/profile/get";
 import { updateDetails } from "../controllers/user/profile/update";
 import { walletPayment } from "../controllers/user/wallet/payment";
@@ -21,8 +22,11 @@ import {
     authenticate,
     authorizeUser
 } from "../middlewares/user/authMiddleware";
+import FileUpload from "../services/fileUpload";
 
 const router = express.Router();
+const fileUpload = new FileUpload();
+const upload = fileUpload.localStorage();
 
 // All user routes require authentication and user role
 router.use(authenticate, authorizeUser);
@@ -41,6 +45,17 @@ router.get("/aim", listAims);
 router.post("/address", validateAddress, addAddress);
 router.get("/address", getAddress);
 router.patch("/address", updateAddress);
+
+// Kyc routes
+router.post(
+    "/kyc",
+    upload.fields([
+        { name: "emirates_id_front_img", maxCount: 1 },
+        { name: "emirates_id_back_img", maxCount: 1 },
+        { name: "visa_copy", maxCount: 1 },
+    ]),
+    addKyc
+);
 
 // Profile routes
 router.get("/profile", getProfile);

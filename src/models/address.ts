@@ -54,5 +54,5 @@ const addressSchema: Schema = new Schema<IAddress>(
   }
 );
 
-const address = mongoose.model<IAddress>("Address", addressSchema);
-export default address;
+const Address = mongoose.model<IAddress>("Address", addressSchema);
+export default Address;

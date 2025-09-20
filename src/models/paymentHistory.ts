@@ -69,9 +69,9 @@ paymentHistorySchema.index({ selected_scheme_id: 1 });
 paymentHistorySchema.index({ aim_id: 1 });
 paymentHistorySchema.index({ status: 1, paidAt: 1 });
 
-const paymentHistory = mongoose.model<IPaymentHistory>(
+const PaymentHistory = mongoose.model<IPaymentHistory>(
   "PaymentHistory",
   paymentHistorySchema
 );
 
-export default paymentHistory;
+export default PaymentHistory;

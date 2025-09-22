@@ -9,6 +9,7 @@ export const schemePaymentScheduler = async () => {
     try {
         console.log("Start creating scheme payments");
         const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
 
@@ -25,12 +26,6 @@ export const schemePaymentScheduler = async () => {
             const scheme = schemes[i];
             const userId = scheme.user_id;
             const schemeId = scheme.scheme_id;
-
-            // If the balance payout amount less than equals to zero then update the status completed
-            if (scheme.balance_payout <= 0) {
-                await SelectedScheme.findByIdAndUpdate(schemeId, { $set: { status: "completed" } });
-                continue;
-            }
 
             const findScheme: any = await Scheme.findById(schemeId);
             const monthlyPay = findScheme.monthly_pay;
@@ -66,6 +61,12 @@ export const schemePaymentScheduler = async () => {
                 { user_id: userId },
                 { $inc: { balance: -monthlyPay, debit: monthlyPay } }
             )
+
+                        // If the balance payout amount less than equals to zero then update the status completed
+            await SelectedScheme.findByIdAndUpdate(schemeId,
+                { balance_payout: { $lte: 0 }, status: "active" },
+                { $set: { status: "completed" } }
+            );
         }
         console.log("Done creating scheme payments");
     } catch (error) {

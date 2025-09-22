@@ -9,6 +9,7 @@ import { getAddress } from "../controllers/user/address/get";
 import { updateAddress } from "../controllers/user/address/update";
 import { addKyc } from "../controllers/user/kyc/add";
 import { getKyc } from "../controllers/user/kyc/get";
+import { updateKyc } from "../controllers/user/kyc/update";
 import { getProfile } from "../controllers/user/profile/get";
 import { updateDetails } from "../controllers/user/profile/update";
 import { walletPayment } from "../controllers/user/wallet/payment";
@@ -58,6 +59,15 @@ router.post(
     addKyc
 );
 router.get("/kyc", getKyc);
+router.patch(
+    "/kyc",
+    upload.fields([
+        { name: "emirates_id_front_img", maxCount: 1 },
+        { name: "emirates_id_back_img", maxCount: 1 },
+        { name: "visa_copy", maxCount: 1 },
+    ]),
+    updateKyc
+);
 
 // Profile routes
 router.get("/profile", getProfile);

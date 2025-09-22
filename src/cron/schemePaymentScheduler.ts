@@ -4,6 +4,7 @@ import Scheme from "../models/scheme";
 import paymentHistory from "../models/paymentHistory";
 import Wallet from "../models/wallet";
 import { generateTransactionId } from "../services/transactionId";
+import { goldAedValue } from "../services/goldData";
 
 export const schemePaymentScheduler = async () => {
     try {
@@ -30,6 +31,16 @@ export const schemePaymentScheduler = async () => {
             const findScheme: any = await Scheme.findById(schemeId);
             const monthlyPay = findScheme.monthly_pay;
 
+            // If scheme type gold then add credited gold value
+            if (findScheme.scheme_type === "gold") {
+                const goldValue = goldAedValue;
+                const creditedGold = goldValue / monthlyPay;
+
+                await SelectedScheme.findByIdAndUpdate(schemeId,
+                    { $inc: { credited_gold: creditedGold } }
+                );
+            }
+
             const transactionId = generateTransactionId();
 
             // Add to pending payment history
@@ -43,7 +54,6 @@ export const schemePaymentScheduler = async () => {
                 status: "paid"
             });
 
-            // const nextPayment = new Date(today.getDate() + 30);
             const nextPayment = today;
             nextPayment.setDate(nextPayment.getDate() + 30);
 
@@ -62,7 +72,7 @@ export const schemePaymentScheduler = async () => {
                 { $inc: { balance: -monthlyPay, debit: monthlyPay } }
             )
 
-                        // If the balance payout amount less than equals to zero then update the status completed
+            // If the balance payout amount less than equals to zero then update the status completed
             await SelectedScheme.findByIdAndUpdate(schemeId,
                 { balance_payout: { $lte: 0 }, status: "active" },
                 { $set: { status: "completed" } }

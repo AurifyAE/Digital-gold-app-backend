@@ -3,7 +3,7 @@ import Kyc from "../../../models/kyc";
 import User from "../../../models/user";
 
 export const updateKycStatus = async (req: Request, res: Response) => {
-    const { kyc_id, status } = req.body;
+    const { kyc_id, status, reason } = req.body;
 
     if (!kyc_id || !status) {
         return res.status(400).json({
@@ -28,6 +28,9 @@ export const updateKycStatus = async (req: Request, res: Response) => {
             message: "KYC record not found",
         });
     }
+
+    if (reason !== "" && reason !== undefined)
+        kycDoc.reason = reason;
 
     kycDoc.status = status;
     await kycDoc.save();

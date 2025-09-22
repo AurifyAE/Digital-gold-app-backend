@@ -9,6 +9,7 @@ export interface IKyc extends Document {
     passport_no: string;
     visa_copy: string;
     source_of_funds: string;
+    reason: string;
     status: string;
 }
 
@@ -45,6 +46,9 @@ const kycSchema: Schema = new Schema<IKyc>(
         source_of_funds: {
             type: String,
             required: true,
+        },
+        reason: {
+            type: String,
         },
         status: {
             type: String,

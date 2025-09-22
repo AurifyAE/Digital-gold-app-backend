@@ -25,6 +25,14 @@ export const getProfile = async (req: Request, res: Response) => {
                     as: "wallet"
                 }
             },
+                       {
+                $lookup: {
+                    from: "kycs",
+                    localField: "_id",
+                    foreignField: "user_id",
+                    as: "kyc"
+                }
+            },
             {
                 $project: {
                     first_name: 1,
@@ -35,6 +43,7 @@ export const getProfile = async (req: Request, res: Response) => {
                     mobile_no: 1,
                     address: 1,
                     wallet: 1,
+                    kyc: 1,
                     createdAt: 1
                 }
             }

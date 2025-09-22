@@ -88,6 +88,7 @@ export const addAim = async (req: Request, res: Response) => {
 
   // Payment cycle with calculate next payment date
   const nextPayment = new Date();
+  nextPayment.setUTCHours(0, 0, 0, 0);
 
   switch (payment_cycle) {
     case "daily":

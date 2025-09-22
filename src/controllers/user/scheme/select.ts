@@ -33,6 +33,7 @@ export const selectScheme = async (req: Request, res: Response) => {
 
     // Fetch today date for next payment date
     const nextPayment = new Date();
+    nextPayment.setUTCHours(0, 0, 0, 0);
     nextPayment.setDate(nextPayment.getDate() + 30);
 
     // Create selected scheme

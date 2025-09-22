@@ -8,6 +8,7 @@ export const aimPaymentsDailyScheduler = async () => {
     try {
         console.log("Start creating daily aim payments");
         const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
 
@@ -23,12 +24,6 @@ export const aimPaymentsDailyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-
-            // If the balance payout amount less than equals to zero then update the status completed
-            if (aim.balance_payout <= 0) {
-                await Aim.findByIdAndUpdate(aim._id, { $set: { status: "completed" } });
-                continue;
-            }
 
             const userId = aim.user_id;
             const transactionId = generateTransactionId();
@@ -61,6 +56,12 @@ export const aimPaymentsDailyScheduler = async () => {
                     current_saved: aim.calculated_emi,
                 }
             });
+
+            // If the balance payout amount less than equals to zero then update the status completed
+            await Aim.findByIdAndUpdate(aim._id,
+                { balance_payout: { $lte: 0 }, status: "active" },
+                { $set: { status: "completed" } }
+            );
         }
         console.log("Done creating daily aim payments");
     } catch (error) {
@@ -72,6 +73,7 @@ export const aimPaymentsWeeklyScheduler = async () => {
     try {
         console.log("Start creating weekly aim payments");
         const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
 
@@ -87,14 +89,6 @@ export const aimPaymentsWeeklyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-
-            // If the balance payout amount less than equals to zero then update the status completed
-            if (aim.balance_payout <= 0) {
-                await Aim.findByIdAndUpdate(aim._id, {
-                $set: { status: "completed" },
-                });
-                continue;
-            }
                 
             const userId = aim.user_id;
             const transactionId = generateTransactionId();
@@ -129,6 +123,12 @@ export const aimPaymentsWeeklyScheduler = async () => {
                 current_saved: aim.calculated_emi,
                 },
             });
+
+            // If the balance payout amount less than equals to zero then update the status completed
+            await Aim.findByIdAndUpdate(aim._id,
+                { balance_payout: { $lte: 0 }, status: "active" },
+                { $set: { status: "completed" } }
+            );
         }
         console.log("Done creating weekly aim payments");
     } catch (error) {
@@ -140,6 +140,7 @@ export const aimPaymentsMonthlyScheduler = async () => {
     try {
         console.log("Start creating monthly aim payments");
         const today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
 
@@ -155,14 +156,6 @@ export const aimPaymentsMonthlyScheduler = async () => {
 
         for (let i = 0; i < aims.length; i++) {
             const aim = aims[i];
-
-            // If the balance payout amount less than equals to zero then update the status completed
-            if (aim.balance_payout <= 0) {
-                await Aim.findByIdAndUpdate(aim._id, {
-                $set: { status: "completed" },
-                });
-                continue;
-            }
 
             const userId = aim.user_id;
             const transactionId = generateTransactionId();
@@ -197,6 +190,12 @@ export const aimPaymentsMonthlyScheduler = async () => {
                 current_saved: aim.calculated_emi,
                 },
             });
+
+            // If the balance payout amount less than equals to zero then update the status completed
+            await Aim.findByIdAndUpdate(aim._id,
+                { balance_payout: { $lte: 0 }, status: "active" },
+                { $set: { status: "completed" } }
+            );
         }
         console.log("Done creating monthly aim payments");
     } catch (error) {

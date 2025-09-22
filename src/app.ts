@@ -4,6 +4,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth";
 import adminRoutes from "./routes/admin";
 import userRoutes from "./routes/user";
+import { connectGoldDataSocket } from "./services/goldData";
 
 const app = express();
 
@@ -17,6 +18,9 @@ if (process.env.NODE_ENV === "development") {
 } else {
   app.use(morgan("combined")); // Standard Apache combined log format for production
 }
+
+// Socket connections
+connectGoldDataSocket();
 
 // Routes
 app.use("/api/auth", authRoutes);

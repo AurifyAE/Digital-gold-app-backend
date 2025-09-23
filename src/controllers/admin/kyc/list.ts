@@ -45,6 +45,7 @@ export const pendingKycList = async (req: Request, res: Response) => {
                 address: 1,
             },
         },
+        { $sort: { createdAt: -1 } }
     ]);
 
     res.json({

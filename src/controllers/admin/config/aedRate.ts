@@ -13,21 +13,21 @@ export const getAedGoldRate = async (req: Request, res: Response) => {
     });
 }
 
-// export const updateAedGoldRate = async (req: Request, res: Response) => {
-//     const { id, value } = req.body;
+export const updateAedGoldRate = async (req: Request, res: Response) => {
+    const { id, value } = req.body;
 
-//     // Validate input
-//     if (!id || !value) throw new AppError(400, "Please provide config id and value.");
+    // Validate input
+    if (!id || !value) throw new AppError(400, "Please provide config id and value.");
 
-//     // Update config
-//     await Config.findByIdAndUpdate(id, { value });
+    // Update config
+    await Config.findByIdAndUpdate(id, { value });
 
-//     // Update usd to aed gold rate
-//     setUsdToAedGoldRate(value);
+    // Update usd to aed gold rate
+    setUsdToAedGoldRate(value);
 
-//     res.json({
-//         success: true,
-//         message: "AED gold rate updated successfully.",
-//         data: {},
-//     });
-// };
+    res.json({
+        success: true,
+        message: "AED gold rate updated successfully.",
+        data: {},
+    });
+};

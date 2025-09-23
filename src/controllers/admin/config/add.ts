@@ -10,12 +10,14 @@ export const addConfig = async (req: Request, res: Response) => {
     throw new AppError(400, "Please provide key and value.");
   }
 
+  const lowerCaseKey = key.toLowerCase();
+
   // Check if config key already exists
-  const findConfig = await Config.findOne({ key });
+  const findConfig = await Config.findOne({ lowerCaseKey });
   if (findConfig) throw new AppError(400, "Config key already exists.");
 
   // Add config
-  await Config.create({ key, value });
+  await Config.create({ lowerCaseKey, value });
 
   res.json({
     success: true,

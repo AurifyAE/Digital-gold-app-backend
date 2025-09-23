@@ -10,6 +10,7 @@ export const updateKyc = async (req: Request, res: Response) => {
     // Check if kyc exists
     const kyc = await Kyc.findById(kyc_id);
     if (!kyc) throw new AppError(404, "Kyc not found.");
+
     // Check kyc status rejected then only update the data
     if (kyc.status !== "rejected")
         throw new AppError(400, "The Kyc status must be rejected!");
@@ -32,6 +33,9 @@ export const updateKyc = async (req: Request, res: Response) => {
     addIfValid("emirates_id", emirates_id);
     addIfValid("passport_no", passport_no);
     addIfValid("source_of_funds", source_of_funds);
+
+    // Change status again to pending state
+    kycData.status = "pending";
 
     if (emiratesIdFrontImg)
         kycData.emirates_id_front_img = emiratesIdFrontImg;

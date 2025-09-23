@@ -18,6 +18,9 @@ import { updateKycStatus } from "../controllers/admin/kyc/update";
 // Config
 import { addConfig } from "../controllers/admin/config/add";
 
+// AED rate
+import { getAedGoldRate } from "../controllers/admin/config/aedRate";
+
 // Payment
 import { listPayments } from "../controllers/admin/payment/list";
 import { updatePaymentStatus } from "../controllers/admin/payment/update";
@@ -51,8 +54,11 @@ router.delete("/user/:id", deleteUser);
 router.get("/kyc", pendingKycList);
 router.patch("/kyc", updateKycStatus);
 
-// Config
+// Config routes
 router.post("/config", addConfig);
+
+// AED rate routes
+router.get("/aed-rate", getAedGoldRate);
 
 // Payment routes
 router.get("/payment", listPayments);

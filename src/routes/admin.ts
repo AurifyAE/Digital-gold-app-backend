@@ -15,6 +15,9 @@ import { deleteUser } from "../controllers/admin/user/delete";
 import { pendingKycList } from "../controllers/admin/kyc/list";
 import { updateKycStatus } from "../controllers/admin/kyc/update";
 
+// Config
+import { addConfig } from "../controllers/admin/config/add";
+
 // Payment
 import { listPayments } from "../controllers/admin/payment/list";
 import { updatePaymentStatus } from "../controllers/admin/payment/update";
@@ -47,6 +50,9 @@ router.delete("/user/:id", deleteUser);
 // Kyc routes
 router.get("/kyc", pendingKycList);
 router.patch("/kyc", updateKycStatus);
+
+// Config
+router.post("/config", addConfig);
 
 // Payment routes
 router.get("/payment", listPayments);

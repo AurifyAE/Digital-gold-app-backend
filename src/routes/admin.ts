@@ -17,6 +17,7 @@ import { updateKycStatus } from "../controllers/admin/kyc/update";
 
 // Config
 import { addConfig } from "../controllers/admin/config/add";
+import { updateConfig } from "../controllers/admin/config/update";
 
 // AED rate
 import { getAedGoldRate, updateAedGoldRate } from "../controllers/admin/config/aedRate";
@@ -56,6 +57,7 @@ router.patch("/kyc", updateKycStatus);
 
 // Config routes
 router.post("/config", addConfig);
+router.patch("/config", updateConfig);
 
 // AED rate routes
 router.get("/aed-rate", getAedGoldRate);

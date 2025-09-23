@@ -17,7 +17,7 @@ export const addConfig = async (req: Request, res: Response) => {
   if (findConfig) throw new AppError(400, "Config key already exists.");
 
   // Add config
-  await Config.create({ lowerCaseKey, value });
+  await Config.create({ key: lowerCaseKey, value });
 
   res.json({
     success: true,

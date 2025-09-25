@@ -28,7 +28,7 @@ import FileUpload from "../services/fileUpload";
 
 const router = express.Router();
 const fileUpload = new FileUpload();
-const upload = fileUpload.localStorage();
+const upload = fileUpload.s3Storage();
 
 // All user routes require authentication and user role
 router.use(authenticate, authorizeUser);

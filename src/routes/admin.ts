@@ -6,6 +6,7 @@ import { updateScheme } from "../controllers/admin/scheme/update";
 import { deleteScheme } from "../controllers/admin/scheme/delete";
 
 // Static aim
+import { listStaticAim } from "../controllers/admin/static-aim/list";
 import { addStaticAim } from "../controllers/admin/static-aim/add";
 
 // User
@@ -49,6 +50,7 @@ router.delete("/scheme/:id", deleteScheme);
 
 // Static aim routes
 router.post("/static-aim", addStaticAim);
+router.get("/static-aim", listStaticAim);
 
 // User routes
 router.get("/user", listUsers);

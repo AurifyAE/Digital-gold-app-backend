@@ -31,6 +31,7 @@ export const listPayments = async (req: Request, res: Response) => {
         paidAt: 1,
         payment_type: 1,
         user: 1,
+        createdAt: 1,
       },
     },
     {

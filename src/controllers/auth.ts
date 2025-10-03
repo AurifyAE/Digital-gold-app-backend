@@ -3,7 +3,7 @@ import AppError from "../utils/error";
 import User from "../models/user";
 import Wallet from "../models/wallet";
 import Session from "../models/session";
-import { createUserToken } from "../utils/createToken";
+import { createUserToken, createAdminToken } from "../utils/createToken";
 
 // Register controller
 export const register = async (req: Request, res: Response) => {
@@ -98,11 +98,25 @@ export const login = async (req: Request, res: Response) => {
     throw new AppError(401, "Invalid credentials.");
   }
 
+  // Check if user is active
+  if (!user.is_active) {
+    throw new AppError(401, "Your account blocked by admin.");
+  }
+
+  let token: string;
+
   // Generate token using the utility function
-  const token = createUserToken({
-    id: user._id.toString(),
-    role: user.role,
-  });
+  if (user.role === "user") {
+    token = createUserToken({
+      id: user._id.toString(),
+      role: user.role,
+    });
+  } else {
+    token = createAdminToken({
+      id: user._id.toString(),
+      role: user.role,
+    });
+  }
 
   // Create session
   await Session.create({

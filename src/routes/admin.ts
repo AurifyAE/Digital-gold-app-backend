@@ -38,14 +38,20 @@ import { listCategory } from "../controllers/admin/category/list";
 import { updateCategory } from "../controllers/admin/category/update";
 import { deleteCategory } from "../controllers/admin/category/delete";
 
+// Product
+import { addProduct } from "../controllers/admin/product/add";
+
 // Middlewares
 import { validateScheme } from "../middlewares/validation";
 import {
     authenticate,
     authorizeAdmin
 } from "../middlewares/admin/authMiddleware";
+import FileUpload from "../services/fileUpload";
 
 const router = express.Router();
+const fileUpload = new FileUpload();
+const upload = fileUpload.s3Storage();
 
 // All admin routes require authentication and admin role
 router.use(authenticate, authorizeAdmin);
@@ -85,10 +91,13 @@ router.patch("/aed-rate", updateAedGoldRate);
 router.get("/payment", listPayments);
 router.patch("/payment", updatePaymentStatus);
 
-// Category
+// Category routes
 router.post("/category", addCategory);
 router.get("/category", listCategory);
 router.patch("/category", updateCategory);
 router.delete("/category/:id", deleteCategory);
+
+// Product routes
+router.post("/product", upload.single("image"), addProduct);
 
 export default router;

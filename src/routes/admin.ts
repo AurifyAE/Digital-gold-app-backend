@@ -35,6 +35,7 @@ import { updatePaymentStatus } from "../controllers/admin/payment/update";
 // Category
 import { addCategory } from "../controllers/admin/category/add";
 import { listCategory } from "../controllers/admin/category/list";
+import { updateCategory } from "../controllers/admin/category/update";
 
 // Middlewares
 import { validateScheme } from "../middlewares/validation";
@@ -86,5 +87,6 @@ router.patch("/payment", updatePaymentStatus);
 // Category
 router.post("/category", addCategory);
 router.get("/category", listCategory);
+router.patch("/category", updateCategory);
 
 export default router;

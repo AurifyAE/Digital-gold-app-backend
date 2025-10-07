@@ -58,7 +58,8 @@ export const addProduct = async (req: Request, res: Response) => {
             gold_weight_grams,
             finish,
             dimensions_mm: dimensionsObj
-        });
+        }
+    );
     
     res.json({
         success: true,

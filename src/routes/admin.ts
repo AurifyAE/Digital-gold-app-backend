@@ -32,6 +32,9 @@ import { getAedGoldRate, updateAedGoldRate } from "../controllers/admin/config/a
 import { listPayments } from "../controllers/admin/payment/list";
 import { updatePaymentStatus } from "../controllers/admin/payment/update";
 
+// Category
+import { addCategory } from "../controllers/admin/category/add";
+
 // Middlewares
 import { validateScheme } from "../middlewares/validation";
 import {
@@ -78,5 +81,8 @@ router.patch("/aed-rate", updateAedGoldRate);
 // Payment routes
 router.get("/payment", listPayments);
 router.patch("/payment", updatePaymentStatus);
+
+// Category
+router.post("/category", addCategory);
 
 export default router;

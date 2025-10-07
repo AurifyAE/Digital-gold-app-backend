@@ -6,7 +6,7 @@ export interface ISession extends Document {
   createdAt: Date;
 }
 
-const SessionSchema: Schema = new Schema<ISession>(
+const sessionSchema: Schema = new Schema<ISession>(
   {
     user_id: {
       type: Schema.Types.ObjectId,
@@ -23,5 +23,5 @@ const SessionSchema: Schema = new Schema<ISession>(
   }
 );
 
-const Session = mongoose.model<ISession>("Session", SessionSchema);
+const Session = mongoose.model<ISession>("Session", sessionSchema);
 export default Session;

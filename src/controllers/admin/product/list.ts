@@ -5,7 +5,7 @@ export const listProduct = async (req: Request, res: Response) => {
 
     const products = await Product.find({ is_deleted: false })
         .populate({
-            path: "category",
+            path: "category_id",
             select: "name"
         })
         .sort({ createdAt: -1 });

@@ -14,6 +14,7 @@ import { getProfile } from "../controllers/user/profile/get";
 import { updateDetails } from "../controllers/user/profile/update";
 import { walletPayment } from "../controllers/user/wallet/payment";
 import { getTransactions } from "../controllers/user/transaction/details";
+import { listProduct } from "../controllers/user/product/list";
 
 // Middlewares
 import {
@@ -78,5 +79,8 @@ router.post("/wallet/payment", walletPayment);
 
 // Transaction routes
 router.get("/transaction", getTransactions);
+
+// Product routes
+router.get("/product", listProduct);
 
 export default router;

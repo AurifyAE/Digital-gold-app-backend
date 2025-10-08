@@ -45,7 +45,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     addIfValid("title", title);
     addIfValid("description", description);
-    addIfValid("category", category);
+    addIfValid("category_id", category);
     addIfValid("material", material);
     addIfValid("metal_purity", metal_purity);
     addIfValid("metal_color", metal_color);

@@ -50,7 +50,7 @@ export const addProduct = async (req: Request, res: Response) => {
         {
             title,
             description,
-            category,
+            category_id: category,
             image,
             material,
             metal_purity,

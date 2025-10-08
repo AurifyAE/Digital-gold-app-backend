@@ -9,7 +9,7 @@ interface Dimensions {
 export interface IProduct extends Document {
     title: string;
     description: string;
-    category: Types.ObjectId;
+    category_id: Types.ObjectId;
     image: string;
     material: string;
     metal_purity: string;
@@ -34,7 +34,7 @@ const productSchema: Schema = new Schema<IProduct>(
     {
         title: { type: String, required: true },
         description: { type: String, required: true },
-        category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+        category_id: { type: Schema.Types.ObjectId, ref: "Category", required: true },
         image: { type: String, required: true },
         material: { type: String, required: true },
         metal_purity: { type: String, required: true },

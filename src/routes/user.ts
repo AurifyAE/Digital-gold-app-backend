@@ -81,6 +81,6 @@ router.post("/wallet/payment", walletPayment);
 router.get("/transaction", getTransactions);
 
 // Product routes
-router.get("/product", listProduct);
+router.get("/products", listProduct);
 
 export default router;

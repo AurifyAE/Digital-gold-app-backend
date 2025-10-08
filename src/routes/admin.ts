@@ -101,9 +101,9 @@ router.patch("/category", updateCategory);
 router.delete("/category/:id", deleteCategory);
 
 // Product routes
-router.post("/product", upload.single("image"), addProduct);
-router.get("/product", listProduct);
-router.patch("/product", upload.single("image"), updateProduct);
-router.delete("/product/:id", deleteProduct);
+router.post("/products", upload.single("image"), addProduct);
+router.get("/products", listProduct);
+router.patch("/products", upload.single("image"), updateProduct);
+router.delete("/products/:id", deleteProduct);
 
 export default router;

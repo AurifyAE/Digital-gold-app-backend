@@ -41,6 +41,7 @@ import { deleteCategory } from "../controllers/admin/category/delete";
 // Product
 import { addProduct } from "../controllers/admin/product/add";
 import { listProduct } from "../controllers/admin/product/list";
+import { updateProduct } from "../controllers/admin/product/update";
 
 // Middlewares
 import { validateScheme } from "../middlewares/validation";
@@ -101,5 +102,6 @@ router.delete("/category/:id", deleteCategory);
 // Product routes
 router.post("/product", upload.single("image"), addProduct);
 router.get("/product", listProduct);
+router.patch("/product", upload.single("image"), updateProduct);
 
 export default router;

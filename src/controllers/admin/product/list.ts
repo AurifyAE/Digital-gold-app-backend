@@ -3,7 +3,12 @@ import Product from "../../../models/product";
 
 export const listProduct = async (req: Request, res: Response) => {
 
-    const products = await Product.find({ is_deleted: false }).sort({ createdAt: -1 });
+    const products = await Product.find({ is_deleted: false })
+        .populate({
+            path: "category",
+            select: "name"
+        })
+        .sort({ createdAt: -1 });
 
     res.json({
         success: true,

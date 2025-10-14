@@ -76,11 +76,31 @@ export const validateAim = [
 ];
 
 export const validateAddress = [
-  body("street").notEmpty().withMessage("Street is required"),
-  body("district").notEmpty().withMessage("District is required"),
-  body("city").notEmpty().withMessage("City is required"),
-  body("state").notEmpty().withMessage("State is required"),
-  body("postal_code").notEmpty().withMessage("Postal code is required"),
+  body("street")
+    .notEmpty()
+    .withMessage("Street is required")
+    .isString()
+    .withMessage("Name must be a string"),
+  body("district")
+    .notEmpty()
+    .withMessage("District is required")
+    .isString()
+    .withMessage("District must be a string"),
+  body("city")
+    .notEmpty()
+    .withMessage("City is required")
+    .isString()
+    .withMessage("City must be a string"),
+  body("state")
+    .notEmpty()
+    .withMessage("State is required")
+    .isString()
+    .withMessage("State must be a string"),
+  body("postal_code")
+    .notEmpty()
+    .withMessage("Postal code is required")
+    .isNumeric()
+    .withMessage("Postal code must be a number"),
   (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

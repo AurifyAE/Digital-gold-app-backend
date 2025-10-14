@@ -113,3 +113,32 @@ export const validateAddress = [
     next();
   },
 ];
+
+export const validateUpdateAddress = [
+  body("street")
+    .isString()
+    .withMessage("Name must be a string"),
+  body("district")
+    .isString()
+    .withMessage("District must be a string"),
+  body("city")
+    .isString()
+    .withMessage("City must be a string"),
+  body("state")
+    .isString()
+    .withMessage("State must be a string"),
+  body("postal_code")
+    .isNumeric()
+    .withMessage("Postal code must be a number"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation Error",
+        errors: errors.array(),
+      });
+    }
+    next();
+  },
+];

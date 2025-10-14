@@ -19,7 +19,8 @@ import { listProduct } from "../controllers/user/product/list";
 // Middlewares
 import {
     validateAim,
-    validateAddress
+    validateAddress,
+    validateUpdateAddress
 } from "../middlewares/validation";
 import {
     authenticate,
@@ -47,7 +48,7 @@ router.get("/aim", listAims);
 // Address routes
 router.post("/address", validateAddress, addAddress);
 router.get("/address", getAddress);
-router.patch("/address", updateAddress);
+router.patch("/address", validateUpdateAddress, updateAddress);
 
 // Kyc routes
 router.post(

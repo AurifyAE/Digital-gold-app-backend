@@ -26,6 +26,7 @@
     "multer-s3": "^3.0.1",
     "node-cron": "^4.2.1",
     "socket.io-client": "^4.8.1",
+    "stripe": "^19.1.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

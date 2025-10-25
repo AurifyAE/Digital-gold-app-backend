@@ -5,12 +5,10 @@ import PaymentHistory from "../../../models/paymentHistory";
 import Wallet from "../../../models/wallet";
 
 export const walletPayment = async (req: Request, res: Response) => {
-    // const { transaction_id, amount } = req.body;
     const { amount } = req.body;
     const userId = (req as any).user?.user_id;
     
     // Validate input
-    // if (!transaction_id || !amount) throw new AppError(400, "Please provide transaction id and amount!");
     if (!amount) throw new AppError(400, "Please provide amount!");
     
     const findWallet = await Wallet.findOne({ user_id: userId });
@@ -30,21 +28,42 @@ export const walletPayment = async (req: Request, res: Response) => {
             clientSecret: paymentIntent.client_secret
         }
     })
-    // const walletId = findWallet._id;
-
-    // // Create payment history
-    // const result = await PaymentHistory.create({
-    //     user_id: userId,
-    //     transaction_id,
-    //     wallet_id: walletId,
-    //     paid_amount: amount,
-    //     payment_type: "wallet",
-    //     paidAt: new Date()
-    // });
-
-    // res.json({
-    //     success: true,
-    //     message: "Wallet payment requested successfully.",
-    //     data: result
-    // });
 };
+
+export const paymentSuccess = async (req: Request, res: Response) => {
+    const { payment_id, amount } = req.body;
+    const userId = (req as any).user?.user_id;
+    
+    // Validate input
+    if (!payment_id || !amount) throw new AppError(400, "Please provide payment id and amount!");
+
+    const findWallet = await Wallet.findOne({ user_id: userId });
+    if (!findWallet) throw new AppError(400, "Wallet not found.");
+
+    const convertAmount = amount / 100;
+
+    const walletId = findWallet._id;
+
+    // Create payment history
+    await PaymentHistory.create({
+        user_id: userId,
+        transaction_id: payment_id,
+        wallet_id: walletId,
+        paid_amount: convertAmount,
+        payment_type: "wallet",
+        paidAt: new Date(),
+        status: "success"
+    });
+
+    // Update wallet balance
+    await Wallet.findOneAndUpdate(
+        { user_id: userId },
+        { $inc: { balance: convertAmount, credit: convertAmount } }
+    );
+
+    res.json({
+        success: true,
+        message: "Wallet payment success.",
+        data: {}
+    });
+}

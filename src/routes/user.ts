@@ -12,7 +12,7 @@ import { getKyc } from "../controllers/user/kyc/get";
 import { updateKyc } from "../controllers/user/kyc/update";
 import { getProfile } from "../controllers/user/profile/get";
 import { updateDetails } from "../controllers/user/profile/update";
-import { walletPayment } from "../controllers/user/wallet/payment";
+import { paymentSuccess, walletPayment } from "../controllers/user/wallet/payment";
 import { getTransactions } from "../controllers/user/transaction/details";
 import { listProduct } from "../controllers/user/product/list";
 
@@ -77,6 +77,7 @@ router.patch("/profile", updateDetails);
 
 // Wallet payment route
 router.post("/wallet/payment", walletPayment);
+router.post("/payment/success", paymentSuccess);
 
 // Transaction routes
 router.get("/transaction", getTransactions);
